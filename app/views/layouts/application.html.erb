@@ -10,6 +10,34 @@
   </head>
 
   <body>
+    <header class="app-header__header">
+      <h1>
+        <%= link_to "Media Ranker", root_path %>
+        <%= link_to " | ", root_path, class: "divider" %>
+        <small>Ranking the Best of Everything</small>
+      </h1>
+      <nav class="app-header__nav">
+        <ul class="nav app-header__site-nav-container">
+          <li class="nav-item app-header__nav_item">
+            <%= link_to "View top media", root_path %>
+          </li>
+          <li class="nav-item app-header__nav_item">
+            <%= link_to "View all media", works_path %>
+          </li>
+          <li class="nav-item app-header__nav_item">
+            <%= link_to "Add a new work", new_work_path %>
+          </li>
+          <li class="nav-item app-header__nav_item">
+            <%= link_to "View all users", users_path %>
+          </li>
+        </ul>
+        <ul class="nav app-header__user-nav-container">
+          <li class="nav-item app-header__nav_item">
+            <%= button_to "Log In", "/login", class: "btn btn-primary" %>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <%= yield %>
   </body>
 </html>
