@@ -4,15 +4,15 @@
       <span class="spotlight__header--prefix">
         Media Spotlight:
       </span>
-      <% top_work = Works.all.filter { |work| work.category == "movie"}.max_by { |movie| movie.votes.length} %>
-      <%= link_to top_work.title, work_path(work.id), class: "spotlight__link-to" %> by <%= top_work.creator %>
+      <% top_work = Work.all.filter { |work| work.category == "movie" }.max_by { |movie| movie.votes.length} %>
+      <%= link_to top_work.title, work_path(top_work.id), class: "spotlight__link-to" %> by <%= top_work.creator %>
     </h2>
     <p><%= top_work.votes.length %> votes - <%= top_work.description %></p>
   </section>
   <section class="top=ten__list-container">
     <h2 class="top-ten__header">Top Movies</h2>
     <ul class="list-group top-ten__list">
-      <% Works.all.filter { |work| work.category == "movie"}.max_by(10) { |movie| movie.votes.length}.each do |movie| %>
+      <% Work.all.filter { |work| work.category == "movie"}.max_by(10) { |movie| movie.votes.length}.each do |movie| %>
         <li class="list-group top-ten__list">
           <h4><%= link_to movie.title, work_path(movie.id) %> <small class="top-ten__creator">by <%= movie.creator %></small></h4>
           <p><%= movie.votes.length %> votes</p>
