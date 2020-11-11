@@ -1,0 +1,20 @@
+movie1:
+  category: movie
+  title: Ratatouille
+  creator: Brad Bird and Jan Pinkava
+  publication_year: Time.new(2007)
+  description:  A rat who can cook makes an unusual alliance with a young kitchen worker at a famous restaurant.
+
+book1:
+  category: book
+  title: Understanding Comics ":" The Invisible Art
+  creator: Scott McCloud
+  publication_year: Time.new(1993)
+  description: A comic book about comic books.
+
+album1:
+  category: album
+  title: Chipmunks in Low Places
+  creator: Alvin and the Chipmunks
+  publication_year: Time.new(2007)
+  description: "Alvin is broke and is feeling 'so blue' about life in general. He cheers himself up to his favorite country songs [track 1]. He brings in his favorite singers to sing with him in his latest album, but every duet ends with an argument [tracks 2-3]. His girlfriend Brittany is in the final process of breaking up with him [tracks 4 and 10]. Coming home to a dirty room, he is so depressed after seeing his guests imitate his mischief that he loses touch with reality and sinks into fairy tale addiction [track 5], refusing to clean his room in the process. At Charlie Daniels's urging, he starts to be nice to his brothers, but the conversation between them results in the unloading of a lot of unpleasant memories [track 6]. He does a concert in Nashville, but cannot resist destroying his and his brothers' instruments [tracks 7-8]. Grounded for his recent acts of mischief, he tries to hook up with Waylon Jennings, but Mr. Jennings turns down his overtures and badmouths his natural behavior [track 9]. Having scared everyone else away, he utters one final, futile act of self-indignation [track 11]. source: https://en.wikipedia.org/wiki/Chipmunks_in_Low_Places"

@@ -15,7 +15,7 @@ class WorksController < ApplicationController
       return
     else
       flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save. Please try again."
-      render :new, status: bad_request
+      render :new, status: :bad_request
       return
     end
   end
@@ -76,6 +76,6 @@ class WorksController < ApplicationController
   private
 
   def work_params
-    return params.require(:work).permit(:title, :category, :creator, :published_date, :description)
+    return params.require(:work).permit(:title, :category, :creator, :publication_year, :description)
   end
 end
