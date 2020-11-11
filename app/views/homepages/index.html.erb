@@ -1,5 +1,13 @@
 <main>
   <section class="spotlight">
+    <h2 class="spotlight__header">
+      <span class="spotlight__header--prefix">
+        Media Spotlight:
+      </span>
+      <% top_work = Works.all.filter { |work| work.category == "movie"}.max_by { |movie| movie.votes.length} %>
+      <%= link_to top_work.title, work_path(work.id), class: "spotlight__link-to" %> by <%= top_work.creator %>
+    </h2>
+    <p><%= top_work.votes.length %> votes - <%= top_work.description %></p>
   </section>
   <section class="top=ten__list-container">
     <h2 class="top-ten__header">Top Movies</h2>
