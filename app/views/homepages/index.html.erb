@@ -1,0 +1,18 @@
+<main>
+  <section class="spotlight">
+  </section>
+  <section class="top=ten__list-container">
+    <h2 class="top-ten__header">Top Movies</h2>
+    <ul class="list-group top-ten__list">
+      <% Works.all.filter { |work| work.category == "movie"}.max_by(10) { |movie| movie.votes.length}.each do |movie| %>
+        <li class="list-group top-ten__list">
+          <h4><%= link_to movie.title, work_path(movie.id) %> <small class="top-ten__creator">by <%= movie.creator %></small></h4>
+          <p><%= movie.votes.length %> votes</p>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  ADD TOP BOOKS AND TOP ALBUMS
+
+</main>
