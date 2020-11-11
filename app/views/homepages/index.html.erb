@@ -13,7 +13,7 @@
     <h2 class="top-ten__header">Top Movies</h2>
     <ul class="list-group top-ten__list">
       <% Work.all.filter { |work| work.category == "movie"}.max_by(10) { |movie| movie.votes.length}.each do |movie| %>
-        <li class="list-group top-ten__list">
+        <li class="list-group-item">
           <h4><%= link_to movie.title, work_path(movie.id) %> <small class="top-ten__creator">by <%= movie.creator %></small></h4>
           <p><%= movie.votes.length %> votes</p>
         </li>
@@ -21,6 +21,27 @@
     </ul>
   </section>
 
-  ADD TOP BOOKS AND TOP ALBUMS
+  <section class="top=ten__list-container">
+    <h2 class="top-ten__header">Top Books</h2>
+    <ul class="list-group top-ten__list">
+      <% Work.all.filter { |work| work.category == "book"}.max_by(10) { |book| book.votes.length}.each do |book| %>
+        <li class="list-group top-ten__list">
+          <h4><%= link_to book.title, work_path(book.id) %> <small class="top-ten__creator">by <%= book.creator %></small></h4>
+          <p><%= book.votes.length %> votes</p>
+        </li>
+      <% end %>
+    </ul>
+  </section>
 
+  <section class="top=ten__list-container">
+    <h2 class="top-ten__header">Top Albums</h2>
+    <ul class="list-group top-ten__list">
+      <% Work.all.filter { |work| work.category == "album"}.max_by(10) { |album| album.votes.length}.each do |album| %>
+        <li class="list-group top-ten__list">
+          <h4><%= link_to album.title, work_path(album.id) %> <small class="top-ten__creator">by <%= album.creator %></small></h4>
+          <p><%= album.votes.length %> votes</p>
+        </li>
+      <% end %>
+    </ul>
+  </section>
 </main>

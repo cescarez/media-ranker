@@ -45,3 +45,30 @@ list-group-item:first-child {
     background-color: #fff;
     border: 1px solid rgba(0,0,0,0.125);
 }
+
+.spotlight__header--prefix {
+    color: #424242;
+}
+
+
+
+.spotlight__link-to, .list-group-item a {
+    color: #26A69A;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.spotlight__link-to, .list-group-item a:hover {
+    color: #26A69A;
+    text-decoration: inherit;
+    background-color: transparent;
+}
+
+.spotlight__link-to {
+    text-decoration: underline;
+}
+
+.spotlight__header--prefix a:hover {
+    color: #00796B;
+    text-decoration: none;
+}
