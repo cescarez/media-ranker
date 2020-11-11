@@ -5,7 +5,12 @@ Rails.application.routes.draw do
   resources :users do
     resources :votes, only: [:create, :index, :show]
   end
+
+  get '/login', to: 'users#login', as: 'login_path'
+  # get '/logout', to: 'users#logout', as: 'logout_path'
+
   resources :works do
     resources :votes, only: [:index, :show]
   end
+
 end
