@@ -43,7 +43,34 @@ describe Work do
   end
 
   describe "validates" do
-
+    it "must have a category" do
+      new_work.category = nil
+      expect(new_work.valid?).must_equal false
+    end
+    it "must have a title" do
+      new_work.title = nil
+      expect(new_work.valid?).must_equal false
+    end
+    it "must have a creator" do
+      new_work.creator = nil
+      expect(new_work.valid?).must_equal false
+    end
+    it "must have a publication year" do
+      new_work.publication_year = nil
+      expect(new_work.valid?).must_equal false
+    end
+    it "validation error message gets stored for required fields" do
+      new_work.category = nil
+      new_work.title = nil
+      new_work.creator = nil
+      new_work.publication_year = nil
+      new_work.description = nil
+      new_work.save
+      expect(new_work.errors.messages).must_include :category
+      expect(new_work.errors.messages).must_include :title
+      expect(new_work.errors.messages).must_include :creator
+      expect(new_work.errors.messages).must_include :publication_year
+    end
   end
 
   describe "custom methods" do
