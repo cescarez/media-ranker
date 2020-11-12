@@ -17,7 +17,7 @@ class Work < ApplicationRecord
   end
 
   def validate_publication_year
-    is_valid = self.publication_year.class == Date || self.publication_year.class == Time || self.publication_year.class == Datetime
+    is_valid = (self.publication_year.class == Time || self.publication_year.class == Date)
     unless is_valid
       raise ArgumentError, "Invalid publication year for work. Program exiting"
     else

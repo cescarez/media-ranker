@@ -48,7 +48,7 @@ describe WorksController do
 
     it "does not post an invalid new work and responds with bad_request" do
       expect {
-        post works_path, params: {work: {category: "book missing publication year", title: "bad date", creator: "some schmuck"}}
+        post works_path, params: {work: {category: "book", title: "missing creator", publication_year: Time.now}}
       }.wont_change "Work.count"
 
       must_respond_with :bad_request
@@ -103,7 +103,7 @@ describe WorksController do
       work = works(:book1)
 
       expect {
-        patch work_path(work.id), params: {work: {category: "book missing title", title: nil, creator: "some schmuck", publication_year: Time.now}}
+        patch work_path(work.id), params: {work: {category: "book", title: nil, creator: "book missing title", publication_year: Time.new(1993)}}
       }.wont_change "Work.count"
 
       must_respond_with :bad_request

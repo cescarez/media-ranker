@@ -74,6 +74,35 @@ describe Work do
   end
 
   describe "custom methods" do
+    describe "validate_category" do
+      it "will raise an exception for invalid string inputs for category" do
+        new_work.category = "test_fail"
+        expect {
+          new_work.validate_category
+        }.must_raise ArgumentError
+      end
+      it "will raise an exception for empty string inputs for category" do
+        new_work.category = ""
+        expect {
+          new_work.validate_category
+        }.must_raise ArgumentError
+      end
+    end
+
+    describe "validate_publication_year" do
+      it "will raise an exception for string inputs for category" do
+        new_work.publication_year = "2007"
+        expect {
+          new_work.validate_publication_year
+        }.must_raise ArgumentError
+      end
+      it "will raise an exception for integer inputs for category" do
+        new_work.publication_year = 2007
+        expect {
+          new_work.validate_publication_year
+        }.must_raise ArgumentError
+      end
+    end
 
   end
 

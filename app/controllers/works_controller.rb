@@ -9,6 +9,8 @@ class WorksController < ApplicationController
 
   def create
     @work = Work.new(work_params)
+    @work.validate_category
+    @work.validate_publication_year
 
     if @work.save
       redirect_to work_path(@work.id)
@@ -45,6 +47,8 @@ class WorksController < ApplicationController
       render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     elsif @work.update(work_params)
+      @work.validate_category
+      @work.validate_publication_year
       redirect_to work_path(@work.id)
       return
     else
