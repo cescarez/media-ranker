@@ -26,10 +26,10 @@ class Work < ApplicationRecord
   end
 
   def self.spotlight
-    return Work.all.max_by { |work| work.votes.length}
+    return Work.all.max_by { |work| work.votes.length }
   end
 
   def self.top_ten(category)
-    return Work.all.filter { |work| work.category == category }.max_by(10) { |work| work.votes.length}
+    return Work.all.filter { |work| work.category == category }.max_by(10) { |work| work.votes.length }
   end
 end

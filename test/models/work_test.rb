@@ -153,10 +153,224 @@ describe Work do
     end
 
     describe "top_ten" do
+
+
+
       describe "albums" do
+        before do
+          @winning_work = {
+            category: "album",
+            creator: "Winner",
+            publication_year: Time.now
+          }
+
+          @losing_work = {
+            category: "album",
+            creator: "Loser",
+            publication_year: Time.now
+          }
+
+          @losing_works = []
+          @winning_works = []
+        end
+
+        it "selects top ten albums based on votes" do
+          new_user = User.create!(name: "Test User")
+
+          12.times do |count|
+            @losing_work[:title] = "Losing album #{count}"
+            @winning_work[:title] = "Winning album #{count}"
+            @losing_works << Work.create(@losing_work)
+            @winning_works << Work.create(@winning_work)
+          end
+
+          @losing_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+          end
+
+          @winning_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: new_user)
+          end
+
+          top_ten = Work.top_ten("album")
+
+          expect(top_ten.length).must_equal 10
+
+          top_ten.each do |work|
+            expect(@winning_works).must_include work
+          end
+        end
+
+        it "selects all albums if there are less than ten in db" do
+          new_user = User.create!(name: "Test User")
+          db_works = Work.all.filter { |work| work.category == "album" }
+          num_new_works = 5
+
+          num_new_works.times do |count|
+            @winning_work[:title] = "Winning album #{count}"
+            @winning_works << Work.create(@winning_work)
+          end
+
+          @winning_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+          end
+
+          top_ten = Work.top_ten("album")
+
+          expect(top_ten.length).must_equal num_new_works + db_works.length
+
+          top_ten.each do |work|
+            expect(@winning_works += db_works).must_include work
+          end
+        end
 
       end
+
       #####################
+      describe "books" do
+
+        before do
+          @winning_work = {
+            category: "book",
+            creator: "Winner",
+            publication_year: Time.now
+          }
+
+          @losing_work = {
+            category: "book",
+            creator: "Loser",
+            publication_year: Time.now
+          }
+
+          @losing_works = []
+          @winning_works = []
+        end
+
+        it "selects top ten books based on votes" do
+          new_user = User.create!(name: "Test User")
+
+          12.times do |count|
+            @losing_work[:title] = "Losing book #{count}"
+            @winning_work[:title] = "Winning book #{count}"
+            @losing_works << Work.create(@losing_work)
+            @winning_works << Work.create(@winning_work)
+          end
+
+          @losing_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+          end
+
+          @winning_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: new_user)
+          end
+
+          top_ten = Work.top_ten("book")
+
+          expect(top_ten.length).must_equal 10
+
+          top_ten.each do |work|
+            expect(@winning_works).must_include work
+          end
+        end
+
+        it "selects all books if there are less than ten in db" do
+          new_user = User.create!(name: "Test User")
+          db_works = Work.all.filter { |work| work.category == "book" }
+          num_new_works = 5
+
+          num_new_works.times do |count|
+            @winning_work[:title] = "Winning book #{count}"
+            @winning_works << Work.create(@winning_work)
+          end
+
+          @winning_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+          end
+
+          top_ten = Work.top_ten("book")
+
+          expect(top_ten.length).must_equal num_new_works + db_works.length
+
+          top_ten.each do |work|
+            expect(@winning_works += db_works).must_include work
+          end
+        end
+      end
+
+      #####################
+      describe "movies" do
+
+        before do
+          @winning_work = {
+            category: "movie",
+            creator: "Winner",
+            publication_year: Time.now
+          }
+
+          @losing_work = {
+            category: "movie",
+            creator: "Loser",
+            publication_year: Time.now
+          }
+
+          @losing_works = []
+          @winning_works = []
+        end
+
+        it "selects top ten movies based on votes" do
+          new_user = User.create!(name: "Test User")
+
+          12.times do |count|
+            @losing_work[:title] = "Losing movie #{count}"
+            @winning_work[:title] = "Winning movie #{count}"
+            @losing_works << Work.create(@losing_work)
+            @winning_works << Work.create(@winning_work)
+          end
+
+          @losing_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+          end
+
+          @winning_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: new_user)
+          end
+
+          top_ten = Work.top_ten("movie")
+
+          expect(top_ten.length).must_equal 10
+
+          top_ten.each do |work|
+            expect(@winning_works).must_include work
+          end
+        end
+
+        it "selects all books if there are less than ten in db" do
+          new_user = User.create!(name: "Test User")
+          db_works = Work.all.filter { |work| work.category == "movie" }
+          num_new_works = 5
+
+          num_new_works.times do |count|
+            @winning_work[:title] = "Winning movie #{count}"
+            @winning_works << Work.create(@winning_work)
+          end
+
+          @winning_works.each do |work|
+            Vote.create!(work: work, user: new_user)
+          end
+
+          top_ten = Work.top_ten("movie")
+
+          expect(top_ten.length).must_equal num_new_works + db_works.length
+
+          top_ten.each do |work|
+            expect(@winning_works += db_works).must_include work
+          end
+        end
+      end
+
     end
 
   end
