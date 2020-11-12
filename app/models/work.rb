@@ -24,4 +24,12 @@ class Work < ApplicationRecord
       return self.category
     end
   end
+
+  def spotlight
+    return Work.all.max_by { |work| work.votes.length}
+  end
+
+  def top_ten(category)
+    return Work.all.filter { |work| work.category == category }.max_by(10) { |work| work.votes.length}
+  end
 end
