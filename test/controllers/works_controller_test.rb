@@ -1,6 +1,19 @@
 require "test_helper"
 
 describe WorksController do
+
+  let (:work_hash) do
+    {
+      work: {
+        category: "book",
+        title: "Test book",
+        creator: "Some author",
+        publication_year: Time.new(2000),
+        description: "This is the story of a girl, who cried a river and drowned the whole wooooorld...."
+      }
+    }
+  end
+
   describe "index" do
     it "responds with success when accessed" do
       get works_path
@@ -16,24 +29,11 @@ describe WorksController do
   end
 
   describe "create" do
-    let (:work_hash) do
-     {
-        work: {
-          category: "book",
-          title: "Test book",
-          creator: "Some author",
-          publication_year: Time.new(2000),
-          description: "This is the story of a girl, who cried a river and drowned the whole wooooorld...."
-        }
-      }
-    end
 
     it "posts a valid new work and redirects to associated show page" do
       expect {
         post works_path, params: work_hash
       }.must_differ "Work.count", 1
-
-      p Work.count
 
       latest_work = Work.last
 
@@ -48,7 +48,7 @@ describe WorksController do
 
     it "does not post an invalid new work and responds with bad_request" do
       expect {
-        post works_path, params: {work: {category: "book", title: "bad date", creator: "some schmuck", publication_year: nil}}
+        post works_path, params: {work: {category: "book missing publication year", title: "bad date", creator: "some schmuck"}}
       }.wont_change "Work.count"
 
       must_respond_with :bad_request
@@ -69,14 +69,77 @@ describe WorksController do
   end
 
   describe "edit" do
+    it "responds with success for an existing, valid driver" do
+      work = works(:book1)
+      get edit_work_path(work.id)
+      must_respond_with :success
+    end
 
+    it "responds with redirect when getting the edit page for a non-existing work" do
+      get edit_work_path(-1)
+      must_respond_with :not_found
+    end
   end
 
   describe "update" do
+    it "successful save redirects to show page when updating an existing driver with valid params" do
+      work = works(:movie1)
+      expect {
+        patch work_path(work.id), params: work_hash
+      }.wont_change "Work.count"
 
+      must_redirect_to work_path(work.id)
+
+      work.reload
+
+      expect(work[:category]).must_equal work_hash[:work][:category]
+      expect(work[:title]).must_equal work_hash[:work][:title]
+      expect(work[:creator]).must_equal work_hash[:work][:creator]
+      expect(work[:publication_year].year).must_equal work_hash[:work][:publication_year].year
+      expect(work[:description]).must_equal work_hash[:work][:description]
+    end
+
+    it "responds with bad_request when attempting to update an existing driver with invalid params" do
+      work = works(:book1)
+
+      expect {
+        patch work_path(work.id), params: {work: {category: "book missing title", title: nil, creator: "some schmuck", publication_year: Time.now}}
+      }.wont_change "Work.count"
+
+      must_respond_with :bad_request
+    end
+
+    it "responds with not_found when attempting to update an invalid driver with valid params" do
+      expect {
+        patch work_path(-1), params: work_hash
+      }.wont_change "Work.count"
+
+      must_respond_with :not_found
+    end
   end
 
   describe "destroy" do
+    it "destroys an existing work then redirects" do
+      work = works(:album1)
 
+      expect {
+        delete work_path(work.id)
+      }.must_differ "Work.count", -1
+
+      found_work = Work.find_by(title: work.title)
+
+      expect(found_work).must_be_nil
+
+      must_redirect_to works_path
+
+    end
+
+    it "does not change the db when the driver does not exist, then responds with " do
+      expect{
+        delete work_path(-1)
+      }.wont_change "Work.count"
+
+      must_respond_with :not_found
+    end
   end
 end
