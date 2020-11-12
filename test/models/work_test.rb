@@ -225,6 +225,12 @@ describe Work do
           end
         end
 
+        it "returns an empty list when the db is empty" do
+          Work.delete_all
+          top_ten = Work.top_ten("album")
+          expect(top_ten.length).must_equal 0
+          expect(top_ten).must_be_empty
+        end
       end
 
       #####################
@@ -297,6 +303,13 @@ describe Work do
             expect(@winning_works += db_works).must_include work
           end
         end
+
+        it "returns an empty list when the db is empty" do
+          Work.delete_all
+          top_ten = Work.top_ten("book")
+          expect(top_ten.length).must_equal 0
+          expect(top_ten).must_be_empty
+        end
       end
 
       #####################
@@ -368,6 +381,13 @@ describe Work do
           top_ten.each do |work|
             expect(@winning_works += db_works).must_include work
           end
+        end
+
+        it "returns an empty list when the db is empty" do
+          Work.delete_all
+          top_ten = Work.top_ten("movie")
+          expect(top_ten.length).must_equal 0
+          expect(top_ten).must_be_empty
         end
       end
 
