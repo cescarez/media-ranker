@@ -11,6 +11,8 @@ describe Work do
     )
   end
 
+  pp Work.all.map { |work| work.publication_year }
+
   describe "instantiation" do
     it "can be instantiated" do
       expect(new_work.valid?).must_equal true
