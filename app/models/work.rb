@@ -17,7 +17,7 @@ class Work < ApplicationRecord
   end
 
   def validate_publication_year
-    is_valid = (self.publication_year.class == Time || self.publication_year.class == Date)
+    is_valid = (self.publication_year.class == Time || self.publication_year.class == Date) && self.publication_year < Time.now
     unless is_valid
       raise ArgumentError, "Invalid publication year for work. Program exiting"
     else
@@ -25,11 +25,11 @@ class Work < ApplicationRecord
     end
   end
 
-  def spotlight
+  def self.spotlight
     return Work.all.max_by { |work| work.votes.length}
   end
 
-  def top_ten(category)
+  def self.top_ten(category)
     return Work.all.filter { |work| work.category == category }.max_by(10) { |work| work.votes.length}
   end
 end

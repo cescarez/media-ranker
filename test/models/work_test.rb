@@ -102,6 +102,61 @@ describe Work do
           new_work.validate_publication_year
         }.must_raise ArgumentError
       end
+      it "will raise an exception for future publication dates" do
+        new_work.publication_year = Time.now + 1.year
+        expect {
+          new_work.validate_publication_year
+        }.must_raise ArgumentError
+      end
+    end
+
+    describe "spotlight" do
+      let (:other_work) do
+        Work.create!(category: "album", title: "Other Title", creator: "other schmuck", publication_year: Time.now)
+      end
+
+      let (:another_work) do
+         Work.create!(category: "movie", title: "Another Title", creator: "another schmuck", publication_year: Time.now)
+      end
+
+      it "will select the work with the most votes" do
+        new_work.save
+
+        new_user1 = User.create!(name: "Test User 1")
+        new_user2 = User.create!(name: "Test User 2")
+        vote1 = Vote.create!(work: new_work, user: new_user1)
+        vote2 = Vote.create!(work: other_work, user: new_user2)
+        vote3 = Vote.create!(work: other_work, user: new_user1)
+        vote4 = Vote.create!(work: another_work, user: new_user1)
+
+        top_work = Work.spotlight
+
+        expect(top_work.id).must_equal other_work.id
+      end
+
+      it "in cases of ties, will select the work with the work with the most recent vote" do
+        new_work.save
+
+        new_user1 = User.create!(name: "Test User 1")
+        new_user2 = User.create!(name: "Test User 2")
+        vote1 = Vote.create!(work: other_work, user: new_user1)
+        vote2 = Vote.create!(work: new_work, user: new_user2)
+        vote3 = Vote.create!(work: another_work, user: new_user1)
+        vote4 = Vote.create!(work: other_work, user: new_user1)
+        vote5 = Vote.create!(work: another_work, user: new_user1)
+        vote6 = Vote.create!(work: new_work, user: new_user2)
+
+        top_work = Work.spotlight
+
+        expect(top_work.id).must_equal new_work.id
+      end
+    end
+
+    describe "top_ten" do
+      describe "albums" do
+
+      end
+      #####################
     end
 
   end
