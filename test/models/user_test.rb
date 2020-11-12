@@ -39,9 +39,14 @@ describe User do
 
   describe "validates" do
     it "must have a name" do
-
+      new_user.name = nil
+      expect(new_user.valid?).must_equal false
     end
-
+    it "validation error message gets stored" do
+      new_user.name = nil
+      new_user.save
+      expect(new_user.errors.messages).must_include :name
+    end
   end
 
   describe "custom methods" do
