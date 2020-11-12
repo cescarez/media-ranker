@@ -30,22 +30,22 @@ class WorksController < ApplicationController
   end
 
   def edit
-    @work = work.find_by(id: params[:id])
+    @work = Work.find_by(id: params[:id])
 
     if @work.nil?
-      render file: "#{rails.root}/public/404.html", status: :not_found
+      render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     end
   end
 
   def update
-    @work = work.find_by(id: params[:id])
+    @work = Work.find_by(id: params[:id])
 
     if @work.nil?
-      render file: "#{rails.root}/public/404.html", status: :not_found
+      render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     elsif @work.update(work_params)
-      redirect_to works_path
+      redirect_to work_path(@work.id)
       return
     else
       flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not update. Please try again."
@@ -55,10 +55,10 @@ class WorksController < ApplicationController
   end
 
   def destroy
-    @work = work.find_by(id: params[:id])
+    @work = Work.find_by(id: params[:id])
 
     if @work.nil?
-      render file: "#{rails.root}/public/404.html", status: :not_found
+      render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     end
     @work.votes.delete_all #is this necessary? TODO: investigate what happens when a work is deleted and view a user's list of votes
