@@ -3,9 +3,9 @@
     <%= form_with model: @user do |f| %>
 
       <%= f.label :username %>
-      <%= f.text_field :username %>
-
-      <%= f.submit "Login", class="btn btn-primary" %>
+      <%= f.text_field :username, class: "form-control" %>
+      <br>
+      <%= f.submit action_name, class: "btn btn-primary" %>
     <% end %>
   </section>
 </main>
