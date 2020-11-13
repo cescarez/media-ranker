@@ -3,9 +3,9 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-  def new
-    @user = User.new
-  end
+  # def new
+  #   @user = User.new
+  # end
 
   def create
     @user = User.new(user_params)
@@ -20,7 +20,6 @@ class UsersController < ApplicationController
     end
   end
 
-
   def show
     @user = User.find_by(id: params[:id])
     if @user.nil?
@@ -29,30 +28,30 @@ class UsersController < ApplicationController
     end
   end
 
-  def edit
-    @user = User.find_by(id: params[:id])
-
-    if @user.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    end
-  end
-
-  def update
-    @user = User.find_by(id: params[:id])
-
-    if @user.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    elsif @user.update(user_params)
-      redirect_to user_path(@user.id)
-      return
-    else
-      flash.now[:error] =  "Error occurred. User did not update. Please try again."
-      render :edit, status: :bad_request
-      return
-    end
-  end
+  # def edit
+  #   @user = User.find_by(id: params[:id])
+  #
+  #   if @user.nil?
+  #     render file: "#{Rails.root}/public/404.html", status: :not_found
+  #     return
+  #   end
+  # end
+  #
+  # def update
+  #   @user = User.find_by(id: params[:id])
+  #
+  #   if @user.nil?
+  #     render file: "#{Rails.root}/public/404.html", status: :not_found
+  #     return
+  #   elsif @user.update(user_params)
+  #     redirect_to user_path(@user.id)
+  #     return
+  #   else
+  #     flash.now[:error] =  "Error occurred. User did not update. Please try again."
+  #     render :edit, status: :bad_request
+  #     return
+  #   end
+  # end
 
   def destroy
     @user = User.find_by(id: params[:id])

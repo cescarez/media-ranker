@@ -1,0 +1,35 @@
+<main>
+  <section class="user-summary">
+    <h2>User Summary: <%= link_to @user.name, user_path(@user.id) %></h2>
+    <p>Joined site <%= @user.join_date %></p>
+    <section class="work-buttons">
+      <%= button_to "Back to media ranks", root_path, class: "btn btn-primary" %>
+      <%= button_to "Edit", edit_work_path(@work.id), class: "btn btn-primary" %>
+      <%= button_to "Upvote", '/work/:id/upvote', class: "btn btn-primary" %>
+      <%= button_to "Delete", work_path(@work.id), method: :delete, data: { confirm: "Are you sure you want to delete this #{@work.category}?" }, class: "btn btn-danger" %>
+    </section>
+  </section>
+  <br>
+  <section class="user-vote-list">
+    <h3 class="user-votes__header">Votes</h3>
+    <table class="table">
+      <tr>
+        <th scope="col">Media Title</th>
+        <th scope="col">Created By</th>
+        <th scope="col">Published</th>
+        <th scope="col">Category</th>
+        <th scope="col">Voted On</th>
+      </tr>
+      <% @user.votes.each do |vote| %>
+        <tr>
+          <td><%= vote.work.title %></td>
+          <td><%= vote.work.creator %></td>
+          <td><%= vote.work.publication_year %></td>
+          <td><%= vote.work.category %></td>
+          <td><%= vote.submit_date %></td>
+        </tr>
+      <% end %>
+    </table>
+  </section>
+
+</main>
