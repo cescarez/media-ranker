@@ -40,15 +40,10 @@ describe User do
       user.name = nil
       expect(user.valid?).must_equal false
     end
-    it "must have a join date" do
-      user.join_date = nil
-      expect(user.valid?).must_equal false
-    end
     it "validation error message gets stored" do
       user.name = nil
-      user.join_date = nil
       user.save
-      expect(user.errors.messages).must_include :name, :join_date
+      expect(user.errors.messages).must_include :name
     end
   end
 
