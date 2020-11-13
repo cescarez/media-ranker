@@ -53,10 +53,13 @@ class UsersController < ApplicationController
         flash[:success] = "Successfully logged out"
       else
         session[:user_id] = nil
-        flash[:error] = ""
-
+        flash[:error] = "Error. User not found."
       end
+    else
+      flash[:error] = "Error. User must be logged in to logout."
     end
+    redirect_to root_path
+    return
   end
 
   def current
@@ -67,34 +70,6 @@ class UsersController < ApplicationController
       return
     end
   end
-
-  # def new
-  #   @user = User.new
-  # end
-  # def edit
-  #   @user = User.find_by(id: params[:id])
-  #
-  #   if @user.nil?
-  #     render file: "#{Rails.root}/public/404.html", status: :not_found
-  #     return
-  #   end
-  # end
-  #
-  # def update
-  #   @user = User.find_by(id: params[:id])
-  #
-  #   if @user.nil?
-  #     render file: "#{Rails.root}/public/404.html", status: :not_found
-  #     return
-  #   elsif @user.update(user_params)
-  #     redirect_to user_path(@user.id)
-  #     return
-  #   else
-  #     flash.now[:error] =  "Error occurred. User did not update. Please try again."
-  #     render :edit, status: :bad_request
-  #     return
-  #   end
-  # end
 
   def destroy
     @user = User.find_by(id: params[:id])
@@ -118,6 +93,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    return params.require(:user).permit(:name)
+    return params.require(:user).permit(:name, :join_date)
   end
 end

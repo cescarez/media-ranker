@@ -16,7 +16,7 @@
           <td><%= link_to work.title, work_path(work.id) %></td>
           <td><%= work.creator %></td>
           <td><%= work.publication_year %></td>
-          <td><%= button_to "Upvote", '/work/:id/upvote', class: "btn btn-primary" %></td>
+          <td><%= button_to "Upvote", '/works/:id/upvote', class: "btn btn-primary" %></td>
         </tr>
       <% end %>
     </table>

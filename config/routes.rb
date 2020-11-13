@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   get '/users/current', to: 'users#current', as: 'current_user'
 
-  get '/login', to: 'users#login', as: 'login_path'
+  get '/login', to: 'users#login_form', as: 'login_path'
   post '/login', to: 'users#login'
   post '/logout', to: 'users#logout', as: 'logout_path'
 
@@ -16,6 +16,6 @@ Rails.application.routes.draw do
     resources :votes, only: [:index, :show]
   end
 
-  post '/work/:id/upvote', to: 'work#upvote'
+  post '/works/:id/upvote', to: 'works#upvote'
 
 end
