@@ -15,7 +15,11 @@ class WorksController < ApplicationController
       redirect_to work_path(@work.id)
       return
     else
-      flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save. Please try again."
+      flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save."
+      @work.errors.each do |attribute, message|
+        flash.now[:error] << " #{attribute.capitalize.to_s.gsub('_', ' ')} #{message}"
+      end
+      flash.now[:error] << "Please try again."
       render :new, status: :bad_request
       return
     end
@@ -50,7 +54,11 @@ class WorksController < ApplicationController
       redirect_to work_path(@work.id)
       return
     else
-      flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not update. Please try again."
+      flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save."
+      @work.errors.each do |attribute, message|
+        flash.now[:error] << " #{attribute.capitalize.to_s.gsub('_', ' ')} #{message}"
+      end
+      flash.now[:error] << "Please try again."
       render :edit, status: :bad_request
       return
     end
