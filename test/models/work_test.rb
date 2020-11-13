@@ -424,7 +424,24 @@ describe Work do
     end
 
     describe "add_vote" do
+      it "adds a vote for an existing user" do
+        vote = nil
 
+        expect {
+          vote = work.add_vote(user: @user1)
+        }.must_differ "Vote.count", 1
+
+        expect(vote).must_be_instance_of Vote
+      end
+      it "returns nil for a non-existing user" do
+        vote = nil
+
+        expect {
+          vote = work.add_vote(user: nil)
+        }.wont_change "Vote.count"
+
+        expect(vote).must_be_nil
+      end
     end
 
   end
