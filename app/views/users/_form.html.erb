@@ -1,0 +1,11 @@
+<main>
+  <section>
+    <%= form_with model: @user do |f| %>
+
+      <%= f.label :username %>
+      <%= f.text_field :username %>
+
+      <%= f.submit "Login", class="btn btn-primary" %>
+    <% end %>
+  </section>
+</main>
