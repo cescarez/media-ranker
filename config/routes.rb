@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :votes, only: [:create, :index, :show]
   end
 
+  get '/users/current', to: 'users#current', as: 'current_user'
+
   get '/login', to: 'users#login', as: 'login_path'
   post '/login', to: 'users#login'
   post '/logout', to: 'users#logout', as: 'logout_path'
