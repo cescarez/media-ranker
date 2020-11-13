@@ -94,13 +94,19 @@ class WorksController < ApplicationController
 
     user = User.find_by(id: session[:user_id])
 
+
     if user
-      if @work.add_vote(user: user)
-        flash[:success] =  "Successfully upvoted!"
+      previous_vote = @work.votes.find { |vote| vote.user_id == user.id }
+      if previous_vote
+        flash[:error] = "Error. Only one vote is allowed per user, per work."
       else
-        flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
-        @work.errors.each do |attribute, message|
-          flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
+        if @work.add_vote(user: user)
+          flash[:success] =  "Successfully upvoted!"
+        else
+          flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
+          @work.errors.each do |attribute, message|
+            flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
+          end
         end
       end
     else
