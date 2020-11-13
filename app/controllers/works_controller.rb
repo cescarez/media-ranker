@@ -83,6 +83,31 @@ class WorksController < ApplicationController
     end
   end
 
+  def upvote
+    @work = Work.find_by(id: params[:id])
+
+    if @work.nil?
+      render file: "#{Rails.root}/public/404.html", status: :not_found
+      return
+    end
+
+    user = User.find_by(id: params[:user_id])
+
+    if @work.add_vote(user: user)
+      flash[:success] =  "Successfully upvoted!"
+      redirect_to work_path(@work.id)
+      return
+    else
+      flash.now[:error] =  "Error occurred. #{@work.title} upvote did not save."
+      @work.errors.each do |attribute, message|
+        flash.now[:error] << " #{attribute.capitalize.to_s.gsub('_', ' ')} #{message}"
+      end
+      flash.now[:error] << "Please try again."
+      render :edit, status: :bad_request
+      return
+    end
+  end
+
   private
 
   def work_params

@@ -29,4 +29,10 @@ class Work < ApplicationRecord
     return Work.all.filter { |work| work.category == category }.sort_by { |work| work.votes.length }
   end
 
+  #TODO: add test
+  def add_vote(user)
+    return nil if user.nil?
+    return Vote.create(work: self, user: user, submit_date: Time.now)
+  end
+
 end
