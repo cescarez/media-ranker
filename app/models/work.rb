@@ -19,6 +19,7 @@ class Work < ApplicationRecord
   def validate_publication_year
     is_valid = (self.publication_year.class == Time || self.publication_year.class == Date) && self.publication_year < Time.now
     unless is_valid
+      #TODO: add this message to flash hash instead of raising an exception && changing associated test(s)
       raise ArgumentError, "Invalid publication year for work. Program exiting"
     else
       return self.category
