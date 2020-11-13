@@ -1,25 +1,16 @@
 require "test_helper"
 
 describe Work do
-  let (:new_work) do
-    Work.new(
-      category: "book",
-      title: "Test book",
-      creator: "Some author",
-      publication_year: Time.new(2000),
-      description: "This is the story of a girl, who cried a river and drowned the whole wooooorld...."
-    )
-  end
-
-  pp Work.all.map { |work| work.publication_year }
+  let (:work) { works(:album1) }
+  let (:other_work) { works(:book1) }
+  let (:another_work) { works(:movie1) }
 
   describe "instantiation" do
     it "can be instantiated" do
-      expect(new_work.valid?).must_equal true
+      expect(work.valid?).must_equal true
     end
 
     it "will have the required fields" do
-      work = works(:album1)
       [:category, :title, :creator, :publication_year, :description].each do |field|
         expect(work).must_respond_to field
       end
@@ -28,17 +19,14 @@ describe Work do
 
   describe "relationships" do
     it "can have multiple votes" do
-      other_work = Work.create!(category: "book", title: "Some Title", creator: "some schmuck", publication_year: Time.now)
-      new_work.save
-
-      new_user1 = User.create!(name: "Test User 1", join_date: Time.now)
-      new_user2 = User.create!(name: "Test User 2", join_date: Time.now)
-      vote1 = Vote.create!(work: new_work, user: new_user1)
-      vote2 = Vote.create!(work: new_work, user: new_user2)
+      new_user1 = users(:user1)
+      new_user2 = users(:user2)
+      vote1 = Vote.create!(work: work, user: new_user1)
+      vote2 = Vote.create!(work: work, user: new_user2)
       vote3 = Vote.create!(work: other_work, user: new_user1)
 
-      expect(new_work.votes.count).must_equal 2
-      new_work.votes.each do |vote|
+      expect(work.votes.count).must_equal 2
+      work.votes.each do |vote|
         expect(vote).must_be_instance_of Vote
       end
     end
@@ -46,115 +34,107 @@ describe Work do
 
   describe "validates" do
     it "must have a category" do
-      new_work.category = nil
-      expect(new_work.valid?).must_equal false
+      work.category = nil
+      expect(work.valid?).must_equal false
     end
     it "must have a title" do
-      new_work.title = nil
-      expect(new_work.valid?).must_equal false
+      work.title = nil
+      expect(work.valid?).must_equal false
     end
     it "must have a creator" do
-      new_work.creator = nil
-      expect(new_work.valid?).must_equal false
+      work.creator = nil
+      expect(work.valid?).must_equal false
     end
     it "must have a publication year" do
-      new_work.publication_year = nil
-      expect(new_work.valid?).must_equal false
+      work.publication_year = nil
+      expect(work.valid?).must_equal false
     end
     it "validation error message gets stored for required fields" do
-      new_work.category = nil
-      new_work.title = nil
-      new_work.creator = nil
-      new_work.publication_year = nil
-      new_work.description = nil
-      new_work.save
-      expect(new_work.errors.messages).must_include :category
-      expect(new_work.errors.messages).must_include :title
-      expect(new_work.errors.messages).must_include :creator
-      expect(new_work.errors.messages).must_include :publication_year
+      work.category = nil
+      work.title = nil
+      work.creator = nil
+      work.publication_year = nil
+      work.description = nil
+      work.save
+      expect(work.errors.messages).must_include :category
+      expect(work.errors.messages).must_include :title
+      expect(work.errors.messages).must_include :creator
+      expect(work.errors.messages).must_include :publication_year
     end
   end
 
   describe "custom methods" do
     describe "validate_category" do
       it "will raise an exception for invalid string inputs for category" do
-        new_work.category = "test_fail"
+        work.category = "test_fail"
         expect {
-          new_work.validate_category
+          work.validate_category
         }.must_raise ArgumentError
       end
       it "will raise an exception for empty string inputs for category" do
-        new_work.category = ""
+        work.category = ""
         expect {
-          new_work.validate_category
+          work.validate_category
         }.must_raise ArgumentError
       end
     end
 
+    before do
+      @user1 = users(:user1)
+      @user2 = users(:user2)
+    end
+
     describe "spotlight" do
-      let (:other_work) do
-        Work.create!(category: "album", title: "Other Title", creator: "other schmuck", publication_year: Time.now)
-      end
-
-      let (:another_work) do
-         Work.create!(category: "movie", title: "Another Title", creator: "another schmuck", publication_year: Time.now)
-      end
-
       it "will select the work with the most votes" do
-        new_work.save
-
-        new_user1 = User.create!(name: "Test User 1", join_date: Time.now)
-        new_user2 = User.create!(name: "Test User 2", join_date: Time.now)
-        vote1 = Vote.create!(work: new_work, user: new_user1)
-        vote2 = Vote.create!(work: other_work, user: new_user2)
-        vote3 = Vote.create!(work: other_work, user: new_user1)
-        vote4 = Vote.create!(work: another_work, user: new_user1)
+        vote1 = Vote.create!(work: work, user: @user1)
+        vote2 = Vote.create!(work: other_work, user: @user2)
+        vote3 = Vote.create!(work: other_work, user: @user1)
+        vote4 = Vote.create!(work: another_work, user: @user1)
 
         top_work = Work.spotlight
 
         expect(top_work.id).must_equal other_work.id
       end
 
-      it "in cases of ties, will select the work with the work with the most recent vote" do
-        new_work.save
-
-        new_user1 = User.create!(name: "Test User 1", join_date: Time.now)
-        new_user2 = User.create!(name: "Test User 2", join_date: Time.now)
-        vote1 = Vote.create!(work: other_work, user: new_user1)
-        vote2 = Vote.create!(work: new_work, user: new_user2)
-        vote3 = Vote.create!(work: another_work, user: new_user1)
-        vote4 = Vote.create!(work: other_work, user: new_user1)
-        vote5 = Vote.create!(work: another_work, user: new_user1)
-        vote6 = Vote.create!(work: new_work, user: new_user2)
+      it "in cases of ties, will select the work with the most recent vote" do
+        vote1 = Vote.create!(work: other_work, user: @user1)
+        vote2 = Vote.create!(work: work, user: @user2)
+        vote3 = Vote.create!(work: another_work, user: @user1)
+        vote4 = Vote.create!(work: other_work, user: @user1)
+        vote6 = Vote.create!(work: work, user: @user2)
+        vote5 = Vote.create!(work: another_work, user: @user1)
 
         top_work = Work.spotlight
 
-        expect(top_work.id).must_equal new_work.id
+        expect(top_work.id).must_equal another_work.id
       end
     end
 
     describe "top_ten" do
 
+      before do
+        @user = users(:user1)
 
+        @losing_works = []
+        @winning_works = []
+
+        @winning_work = {
+          category: "album",
+          creator: "Winner",
+          publication_year: Time.now
+        }
+
+        @losing_work = {
+          category: "album",
+          creator: "Loser",
+          publication_year: Time.now
+        }
+      end
 
       describe "albums" do
         before do
-          @new_user = User.create!(name: "Test User", join_date: Time.now)
-
-          @winning_work = {
-            category: "album",
-            creator: "Winner",
-            publication_year: Time.now
-          }
-
-          @losing_work = {
-            category: "album",
-            creator: "Loser",
-            publication_year: Time.now
-          }
-
-          @losing_works = []
-          @winning_works = []
+          @winning_work.update(category: "album")
+          @losing_work.update(category: "album")
         end
 
         it "selects top ten albums based on votes" do
@@ -166,12 +146,12 @@ describe Work do
           end
 
           @losing_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
+            Vote.create!(work: work, user: @user)
           end
 
           top_ten = Work.top_ten("album")
@@ -193,7 +173,7 @@ describe Work do
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
           end
 
           top_ten = Work.top_ten("album")
@@ -217,22 +197,8 @@ describe Work do
       describe "books" do
 
         before do
-          @new_user = User.create!(name: "Test User", join_date: Time.now)
-
-          @winning_work = {
-            category: "book",
-            creator: "Winner",
-            publication_year: Time.now
-          }
-
-          @losing_work = {
-            category: "book",
-            creator: "Loser",
-            publication_year: Time.now
-          }
-
-          @losing_works = []
-          @winning_works = []
+          @winning_work.update(category: "book")
+          @losing_work.update(category: "book")
         end
 
         it "selects top ten books based on votes" do
@@ -245,12 +211,12 @@ describe Work do
           end
 
           @losing_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
+            Vote.create!(work: work, user: @user)
           end
 
           top_ten = Work.top_ten("book")
@@ -272,7 +238,7 @@ describe Work do
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
           end
 
           top_ten = Work.top_ten("book")
@@ -294,28 +260,12 @@ describe Work do
 
       #####################
       describe "movies" do
-
         before do
-          @new_user = User.create!(name: "Test User", join_date: Time.now)
-
-          @winning_work = {
-            category: "movie",
-            creator: "Winner",
-            publication_year: Time.now
-          }
-
-          @losing_work = {
-            category: "movie",
-            creator: "Loser",
-            publication_year: Time.now
-          }
-
-          @losing_works = []
-          @winning_works = []
+          @winning_work.update(category: "movie")
+          @losing_work.update(category: "movie")
         end
 
         it "selects top ten movies based on votes" do
-
           12.times do |count|
             @losing_work[:title] = "Losing movie #{count}"
             @winning_work[:title] = "Winning movie #{count}"
@@ -324,12 +274,12 @@ describe Work do
           end
 
           @losing_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
+            Vote.create!(work: work, user: @user)
           end
 
           top_ten = Work.top_ten("movie")
@@ -351,7 +301,7 @@ describe Work do
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @user)
           end
 
           top_ten = Work.top_ten("movie")
