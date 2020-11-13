@@ -87,25 +87,28 @@ class WorksController < ApplicationController
     @work = Work.find_by(id: params[:id])
 
     if @work.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
+      flash[:error] = "Error occurred. Media to be upvoted was not found in database."
+      redirect_back fallback_location: root_path
       return
     end
 
-    user = User.find_by(id: params[:user_id])
+    user = User.find_by(id: session[:user_id])
 
-    if @work.add_vote(user: user)
-      flash[:success] =  "Successfully upvoted!"
-      redirect_to work_path(@work.id)
-      return
-    else
-      flash.now[:error] =  "Error occurred. #{@work.title} upvote did not save. "
-      @work.errors.each do |attribute, message|
-        flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
+    if user
+      if @work.add_vote(user: user)
+        flash[:success] =  "Successfully upvoted!"
+      else
+        flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
+        @work.errors.each do |attribute, message|
+          flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
+        end
       end
-      flash.now[:error] << "Please try again."
-      render :edit, status: :bad_request
-      return
+    else
+      flash[:error] << "You must be logged in to vote."
     end
+
+    redirect_back fallback_location: root_path
+    return
   end
 
   private

@@ -24,7 +24,6 @@ class Work < ApplicationRecord
     return Work.all.filter { |work| work.category == category }.max_by(10) { |work| work.votes.length }
   end
 
-  #TODO: add test
   def self.ordered_filter(category)
     return Work.all.filter { |work| work.category == category }.sort_by { |work| -work.votes.length }
   end
