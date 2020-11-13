@@ -1,37 +1,35 @@
 require "test_helper"
 
 describe User do
-  let(:new_user) do
-    User.new(name: "Test User")
-  end
+  let(:user) { users(:user1) }
+  let (:other_user) { users(:user2) }
 
   describe "instantiation" do
     it "can be instantiated" do
-      expect(new_user.valid?).must_equal true
+      expect(user.valid?).must_equal true
     end
 
     it "will have the required fields" do
-      user = users(:user1)
       expect(user).must_respond_to :name
+      expect(user).must_respond_to :join_date
     end
   end
 
+  let (:work1) { works(:album1) }
+  let (:work2) { works(:book1) }
+  let (:work3) { works(:movie1) }
+
   describe "relationships" do
     it "can have multiple votes" do
-      other_user = User.create!(name: "Other Test User")
+      vote1 = Vote.create!(work: work1, user: user)
+      vote2 = Vote.create!(work: work3, user: other_user)
+      vote3 = Vote.create!(work: work2, user: user)
+      vote4 = Vote.create!(work: work3, user: user)
+      vote5 = Vote.create!(work: work3, user: other_user)
 
-      new_user.save
-
-      new_work1 = Work.create!(category: "book", title: "Test book", creator: "some schmuck", publication_year: Time.now)
-      new_work2 = Work.create!(category: "album", title: "Test album", creator: "some schmuck", publication_year: Time.now)
-      new_work3 = Work.create!(category: "movie", title: "Test movie", creator: "some schmuck", publication_year: Time.now)
-      vote1 = Vote.create!(work: new_work1, user: new_user)
-      vote2 = Vote.create!(work: new_work2, user: new_user)
-      vote3 = Vote.create!(work: new_work3, user: new_user)
-      vote4 = Vote.create!(work: new_work3, user: other_user)
-
-      expect(new_user.votes.count).must_equal 3
-      new_user.votes.each do |vote|
+      expect(user.votes.count).must_equal 3
+      expect(other_user.votes.count).must_equal 2
+      user.votes.each do |vote|
         expect(vote).must_be_instance_of Vote
       end
     end
@@ -39,13 +37,18 @@ describe User do
 
   describe "validates" do
     it "must have a name" do
-      new_user.name = nil
-      expect(new_user.valid?).must_equal false
+      user.name = nil
+      expect(user.valid?).must_equal false
+    end
+    it "must have a join date" do
+      user.join_date = nil
+      expect(user.valid?).must_equal false
     end
     it "validation error message gets stored" do
-      new_user.name = nil
-      new_user.save
-      expect(new_user.errors.messages).must_include :name
+      user.name = nil
+      user.join_date = nil
+      user.save
+      expect(user.errors.messages).must_include :name, :join_date
     end
   end
 
