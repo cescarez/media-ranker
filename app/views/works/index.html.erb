@@ -10,8 +10,15 @@
         <th scope="col">Published</th>
         <th scope="col">Upvote</th>
       </tr>
-    <% Work.ordered_filter("album") %>
-
+      <% Work.ordered_filter("album").each do |work| %>
+        <tr>
+          <th scope="row"><%= work.votes.length %></th>
+          <td><%= work.title %></td>
+          <td><%= work.creator %></td>
+          <td><%= work.publication_year %></td>
+          <td><%= button_to "Upvote", '/work/:id/upvote', class: "btn btn-primary" %></td>
+        </tr>
+      <% end %>
     </table>
   </section>
 </main>
