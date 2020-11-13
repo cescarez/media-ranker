@@ -3,16 +3,16 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
-
   def create
     @user = User.new(user_params)
+    @user.join_date = Time.now
 
     if @user.save
       redirect_to user_path(@user.id)
       return
     else
       flash.now[:error] =  "Error occurred. User did not save. Please try again."
-      render :new, status: :bad_request
+      render :login_form, status: :bad_request
       return
     end
   end
@@ -30,15 +30,21 @@ class UsersController < ApplicationController
   end
 
   def login
-    username = params[:user][:username]
+    username = params[:user][:name]
+
     user = User.find_by(name: username)
+
     if user
       session[:user_id] = user.id
       flash[:success] = "Successfully logged in as returning user #{username} with ID #{user.id}"
     else
-      user = User.create(name: username, join_date: Time.now)
-      session[:user_id] = user.id
-      flash[:success] = "Successfully logged in as new user #{username} with ID #{user.id}"
+      user = User.create(name: username)
+      if user
+        session[:user_id] = user.id
+        flash[:success] = "Successfully logged in as new user #{username} with ID #{user.id}"
+      else
+        flash[:error] = "Something went wrong. No user has been logged in."
+      end
     end
 
     redirect_to root_path
@@ -62,13 +68,16 @@ class UsersController < ApplicationController
     return
   end
 
+  #TODO: why is this ending in a 404 redirect???
   def current
     @current_user = User.find_by(id: session[:user_id])
-    unless @current_user
+
+    if @current_user.nil?
       flash[:error] = "You must be logged in to see this page"
       redirect_to root_path
-      return
     end
+
+    return
   end
 
   def destroy
