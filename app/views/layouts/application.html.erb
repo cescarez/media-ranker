@@ -32,16 +32,19 @@
           </li>
         </ul>
         <ul class="nav app-header__user-nav-container">
-<!--          TODO: Add conditional for if logged in-->
-<!--          <li class="nav-item app-header__nav_item">-->
-            <%#= button_to "Logged in as user.name", "/login", class: "btn btn-primary" %>
-<!--          </li>-->
-<!--          <li class="nav-item app-header__nav_item">-->
-            <%#= button_to "Log Out", "/logout", class: "btn btn-primary" %>
-<!--          </li>-->
-          <li class="nav-item app-header__nav_item">
-            <%= button_to "Log In", "/login", class: "btn btn-primary" %>
-          </li>
+          <% if session[:user_id].nil? %>
+            <li class="nav-item app-header__nav_item">
+              <%= button_to "Log In", "/login", class: "btn btn-primary" %>
+            </li>
+          <% else %>
+            <% user = User.find_by(session[:uesr_id]) %>
+            <li class="nav-item app-header__nav_item">
+              <%= button_to "Logged in as #{user.name}", "/login", class: "btn btn-primary" %>
+            </li>
+            <li class="nav-item app-header__nav_item">
+              <%= button_to "Log Out", "/logout", class: "btn btn-primary" %>
+            </li>
+          <% end %>
         </ul>
       </nav>
     </header>
