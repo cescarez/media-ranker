@@ -14,7 +14,6 @@ Rails.application.routes.draw do
 
   resources :works
 
-  post '/works/:id/upvote', to: 'works#upvote', as:
-    "upvote_work"
+  post '/works/:id/upvote', to: 'works#upvote', as: "upvote_work"
 
 end

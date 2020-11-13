@@ -29,7 +29,7 @@ class Work < ApplicationRecord
   end
 
   #TODO: add test
-  def add_vote(user)
+  def add_vote(user: nil)
     return nil if user.nil?
     return Vote.create(work: self, user: user, submit_date: Time.now)
   end

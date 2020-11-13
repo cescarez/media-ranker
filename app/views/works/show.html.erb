@@ -23,8 +23,8 @@
       </tr>
       <% @work.votes.each do |vote| %>
         <tr>
-          <td><%= vote.user %></td>
-          <td><%= vote.join_date %></td>
+          <td><%= vote.user.name %></td>
+          <td><%= vote.submit_date %></td>
         </tr>
       <% end %>
     </table>
