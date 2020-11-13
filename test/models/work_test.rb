@@ -31,8 +31,8 @@ describe Work do
       other_work = Work.create!(category: "book", title: "Some Title", creator: "some schmuck", publication_year: Time.now)
       new_work.save
 
-      new_user1 = User.create!(name: "Test User 1")
-      new_user2 = User.create!(name: "Test User 2")
+      new_user1 = User.create!(name: "Test User 1", join_date: Time.now)
+      new_user2 = User.create!(name: "Test User 2", join_date: Time.now)
       vote1 = Vote.create!(work: new_work, user: new_user1)
       vote2 = Vote.create!(work: new_work, user: new_user2)
       vote3 = Vote.create!(work: other_work, user: new_user1)
@@ -91,27 +91,6 @@ describe Work do
       end
     end
 
-    describe "validate_publication_year" do
-      it "will raise an exception for string inputs for category" do
-        new_work.publication_year = "2007"
-        expect {
-          new_work.validate_publication_year
-        }.must_raise ArgumentError
-      end
-      it "will raise an exception for integer inputs for category" do
-        new_work.publication_year = 2007
-        expect {
-          new_work.validate_publication_year
-        }.must_raise ArgumentError
-      end
-      it "will raise an exception for future publication dates" do
-        new_work.publication_year = Time.now + 1.year
-        expect {
-          new_work.validate_publication_year
-        }.must_raise ArgumentError
-      end
-    end
-
     describe "spotlight" do
       let (:other_work) do
         Work.create!(category: "album", title: "Other Title", creator: "other schmuck", publication_year: Time.now)
@@ -124,8 +103,8 @@ describe Work do
       it "will select the work with the most votes" do
         new_work.save
 
-        new_user1 = User.create!(name: "Test User 1")
-        new_user2 = User.create!(name: "Test User 2")
+        new_user1 = User.create!(name: "Test User 1", join_date: Time.now)
+        new_user2 = User.create!(name: "Test User 2", join_date: Time.now)
         vote1 = Vote.create!(work: new_work, user: new_user1)
         vote2 = Vote.create!(work: other_work, user: new_user2)
         vote3 = Vote.create!(work: other_work, user: new_user1)
@@ -139,8 +118,8 @@ describe Work do
       it "in cases of ties, will select the work with the work with the most recent vote" do
         new_work.save
 
-        new_user1 = User.create!(name: "Test User 1")
-        new_user2 = User.create!(name: "Test User 2")
+        new_user1 = User.create!(name: "Test User 1", join_date: Time.now)
+        new_user2 = User.create!(name: "Test User 2", join_date: Time.now)
         vote1 = Vote.create!(work: other_work, user: new_user1)
         vote2 = Vote.create!(work: new_work, user: new_user2)
         vote3 = Vote.create!(work: another_work, user: new_user1)
@@ -160,6 +139,8 @@ describe Work do
 
       describe "albums" do
         before do
+          @new_user = User.create!(name: "Test User", join_date: Time.now)
+
           @winning_work = {
             category: "album",
             creator: "Winner",
@@ -177,8 +158,6 @@ describe Work do
         end
 
         it "selects top ten albums based on votes" do
-          new_user = User.create!(name: "Test User")
-
           12.times do |count|
             @losing_work[:title] = "Losing album #{count}"
             @winning_work[:title] = "Winning album #{count}"
@@ -187,12 +166,12 @@ describe Work do
           end
 
           @losing_works.each do |work|
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: new_user)
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           top_ten = Work.top_ten("album")
@@ -205,7 +184,6 @@ describe Work do
         end
 
         it "selects all albums if there are less than ten in db" do
-          new_user = User.create!(name: "Test User")
           db_works = Work.all.filter { |work| work.category == "album" }
           num_new_works = 5
 
@@ -215,7 +193,7 @@ describe Work do
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           top_ten = Work.top_ten("album")
@@ -239,6 +217,8 @@ describe Work do
       describe "books" do
 
         before do
+          @new_user = User.create!(name: "Test User", join_date: Time.now)
+
           @winning_work = {
             category: "book",
             creator: "Winner",
@@ -256,7 +236,6 @@ describe Work do
         end
 
         it "selects top ten books based on votes" do
-          new_user = User.create!(name: "Test User")
 
           12.times do |count|
             @losing_work[:title] = "Losing book #{count}"
@@ -266,12 +245,12 @@ describe Work do
           end
 
           @losing_works.each do |work|
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: new_user)
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           top_ten = Work.top_ten("book")
@@ -284,7 +263,6 @@ describe Work do
         end
 
         it "selects all books if there are less than ten in db" do
-          new_user = User.create!(name: "Test User")
           db_works = Work.all.filter { |work| work.category == "book" }
           num_new_works = 5
 
@@ -294,7 +272,7 @@ describe Work do
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           top_ten = Work.top_ten("book")
@@ -318,6 +296,8 @@ describe Work do
       describe "movies" do
 
         before do
+          @new_user = User.create!(name: "Test User", join_date: Time.now)
+
           @winning_work = {
             category: "movie",
             creator: "Winner",
@@ -335,7 +315,6 @@ describe Work do
         end
 
         it "selects top ten movies based on votes" do
-          new_user = User.create!(name: "Test User")
 
           12.times do |count|
             @losing_work[:title] = "Losing movie #{count}"
@@ -345,12 +324,12 @@ describe Work do
           end
 
           @losing_works.each do |work|
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: new_user)
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           top_ten = Work.top_ten("movie")
@@ -363,7 +342,6 @@ describe Work do
         end
 
         it "selects all books if there are less than ten in db" do
-          new_user = User.create!(name: "Test User")
           db_works = Work.all.filter { |work| work.category == "movie" }
           num_new_works = 5
 
@@ -373,7 +351,7 @@ describe Work do
           end
 
           @winning_works.each do |work|
-            Vote.create!(work: work, user: new_user)
+            Vote.create!(work: work, user: @new_user)
           end
 
           top_ten = Work.top_ten("movie")
