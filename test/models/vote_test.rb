@@ -1,16 +1,12 @@
 require "test_helper"
 
+#note: submit_date presence is not tested for as it gets assigned in Work#upvote
+#
 describe Vote do
   let (:new_vote) do
-    new_work = Work.create!(
-      category: "book",
-      title: "Test book",
-      creator: "Some author",
-      publication_year: Time.new(2000),
-      description: "This is the story of a girl, who cried a river and drowned the whole wooooorld...."
-    )
-    new_user = User.create!(name: "Test User")
-    Vote.new(user: new_user, work: new_work)
+    work = works(:album1)
+    user = users(:user1)
+    Vote.new(user: user, work: work)
   end
 
   describe "instantiation" do
@@ -28,19 +24,8 @@ describe Vote do
   end
 
   describe "relationships" do
-    let (:other_work) do
-      Work.create!(
-      category: "book",
-      title: "Some other book",
-      creator: "Some author",
-      publication_year: Time.new(2000),
-      description: "This is the story of a girl, who cried a river and drowned the whole wooooorld...."
-      )
-    end
-
-    let (:other_user) do
-      User.create!(name: "Other User")
-    end
+    let (:other_work) { works(:book1) }
+    let (:other_user) { users(:user2) }
 
     it "has a work and user" do
       new_vote.save
@@ -51,9 +36,6 @@ describe Vote do
     end
 
     it "changing the work and user  changes the associated foreign keys" do
-      other_work
-      other_user
-
       new_vote.work = other_work
       new_vote.user = other_user
 
@@ -62,9 +44,6 @@ describe Vote do
     end
 
     it "changing the work and user foreign keys changes the associated instances" do
-      other_work
-      other_user
-
       new_vote.work_id = other_work.id
       new_vote.user_id = other_user.id
 
@@ -73,9 +52,8 @@ describe Vote do
     end
   end
 
-
-  describe "custom methods" do
-
-  end
+  # describe "custom methods" do
+  #
+  # end
 
 end
