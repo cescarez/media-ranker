@@ -18,7 +18,7 @@
 
     <div class="form-group">
       <%= f.label :publication_year %>
-      <%= f.text_field :publication_year, class: "form-control"  %>
+      <%= f.date_field :publication_year, discard_day: true, discard_month:true, class: "form-control"  %>
     </div>
 
     <div class="form-group">

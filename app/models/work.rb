@@ -6,21 +6,11 @@ class Work < ApplicationRecord
   validates :category, presence: true
   validates :title, presence: true
   validates :creator, presence: true
-  validates :publication_year, presence: true
+  validates_date :publication_year, on_or_before: lambda { Date.current }
 
   def validate_category
     unless VALID_CATEGORIES.include? self.category
       raise ArgumentError, "Invalid category for work. Program exiting."
-    else
-      return self.category
-    end
-  end
-
-  def validate_publication_year
-    is_valid = (self.publication_year.class == Time || self.publication_year.class == Date) && self.publication_year < Time.now
-    unless is_valid
-      #TODO: add this message to flash hash instead of raising an exception && changing associated test(s)
-      raise ArgumentError, "Invalid publication year for work. Program exiting"
     else
       return self.category
     end
@@ -33,4 +23,10 @@ class Work < ApplicationRecord
   def self.top_ten(category)
     return Work.all.filter { |work| work.category == category }.max_by(10) { |work| work.votes.length }
   end
+
+  #TODO: add test
+  def self.ordered_filter(category)
+    return Work.all.filter { |work| work.category == category }.sort_by { |work| work.votes.length }
+  end
+
 end
