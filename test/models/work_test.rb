@@ -344,24 +344,83 @@ describe Work do
           albums_by_vote = Work.ordered_filter("album")
 
           albums_by_vote.each_with_index do |work, index|
-
             if index > 0
               less_than_previous = work.votes.length < albums_by_vote[index - 1].votes.length
               expect(less_than_previous).must_equal true
             end
-
             if albums_by_vote[index + 1]
               greater_than_next = work.votes.length > albums_by_vote[index + 1].votes.length
               expect(greater_than_next).must_equal true
             end
-
           end
-
         end
-
-
       end
       ########
+      describe "books" do
+        before do
+          work.update(category: "book")
+          other_work.update(category: "book")
+          another_work.update(category: "book")
+        end
+
+        it "returns an ordered list of books by vote" do
+          2.times do
+            Vote.create!(work: work, user: @user1)
+          end
+          3.times do
+            Vote.create!(work: other_work, user: @user2)
+          end
+          5.times do
+            Vote.create!(work: another_work, user: @user2)
+          end
+
+          books_by_vote = Work.ordered_filter("book")
+
+          books_by_vote.each_with_index do |work, index|
+            if index > 0
+              less_than_previous = work.votes.length < books_by_vote[index - 1].votes.length
+              expect(less_than_previous).must_equal true
+            end
+            if books_by_vote[index + 1]
+              greater_than_next = work.votes.length > books_by_vote[index + 1].votes.length
+              expect(greater_than_next).must_equal true
+            end
+          end
+        end
+      end
+      ########
+      describe "movies" do
+        before do
+          work.update(category: "movie")
+          other_work.update(category: "movie")
+          another_work.update(category: "movie")
+        end
+
+        it "returns an ordered list of movies by vote" do
+          2.times do
+            Vote.create!(work: work, user: @user1)
+          end
+          3.times do
+            Vote.create!(work: other_work, user: @user2)
+          end
+          5.times do
+            Vote.create!(work: another_work, user: @user2)
+          end
+
+          movies_by_vote = Work.ordered_filter("movie")
+
+          movies_by_vote.each_with_index do |work, index|
+            if index > 0
+              less_than_previous = work.votes.length < movies_by_vote[index - 1].votes.length
+              expect(less_than_previous).must_equal true
+            end
+            if movies_by_vote[index + 1]
+              greater_than_next = work.votes.length > movies_by_vote[index + 1].votes.length
+              expect(greater_than_next).must_equal true
+            end
+          end
+        end
+      end
     end
 
     describe "add_vote" do
