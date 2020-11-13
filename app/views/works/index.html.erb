@@ -13,7 +13,51 @@
       <% Work.ordered_filter("album").each do |work| %>
         <tr>
           <th scope="row"><%= work.votes.length %></th>
-          <td><%= work.title %></td>
+          <td><%= link_to work.title, work_path(work.id) %></td>
+          <td><%= work.creator %></td>
+          <td><%= work.publication_year %></td>
+          <td><%= button_to "Upvote", '/work/:id/upvote', class: "btn btn-primary" %></td>
+        </tr>
+      <% end %>
+    </table>
+  </section>
+
+  <section class="media-table">
+    <h4>Books</h4>
+    <table class="table">
+      <tr>
+        <th scope="col">Votes</th>
+        <th scope="col">Title</th>
+        <th scope="col">Creator</th>
+        <th scope="col">Published</th>
+        <th scope="col">Upvote</th>
+      </tr>
+      <% Work.ordered_filter("book").each do |work| %>
+        <tr>
+          <th scope="row"><%= work.votes.length %></th>
+          <td><%= link_to work.title, work_path(work.id) %></td>
+          <td><%= work.creator %></td>
+          <td><%= work.publication_year %></td>
+          <td><%= button_to "Upvote", '/work/:id/upvote', class: "btn btn-primary" %></td>
+        </tr>
+      <% end %>
+    </table>
+  </section>
+
+  <section class="media-table">
+    <h4>Movies</h4>
+    <table class="table">
+      <tr>
+        <th scope="col">Votes</th>
+        <th scope="col">Title</th>
+        <th scope="col">Creator</th>
+        <th scope="col">Published</th>
+        <th scope="col">Upvote</th>
+      </tr>
+      <% Work.ordered_filter("movie").each do |work| %>
+        <tr>
+          <th scope="row"><%= work.votes.length %></th>
+          <td><%= link_to work.title, work_path(work.id) %></td>
           <td><%= work.creator %></td>
           <td><%= work.publication_year %></td>
           <td><%= button_to "Upvote", '/work/:id/upvote', class: "btn btn-primary" %></td>
