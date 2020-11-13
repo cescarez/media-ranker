@@ -16,10 +16,9 @@ class WorksController < ApplicationController
       return
     else
       flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save. "
-      @work.errors.each do |attribute, message|
-        flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
-      end
+      @work.errors.each { |attribute, message| flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. " }
       flash.now[:error] << "Please try again."
+
       render :new, status: :bad_request
       return
     end
@@ -55,10 +54,9 @@ class WorksController < ApplicationController
       return
     else
       flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save. "
-      @work.errors.each do |attribute, message|
-        flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
-      end
+      @work.errors.each { |attribute, message| flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. " }
       flash.now[:error] << "Please try again."
+
       render :edit, status: :bad_request
       return
     end
@@ -71,6 +69,7 @@ class WorksController < ApplicationController
       render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     end
+
     @work.votes.delete_all #is this necessary? TODO: investigate what happens when a work is deleted and view a user's list of votes
 
     if @work.destroy
@@ -83,6 +82,7 @@ class WorksController < ApplicationController
     end
   end
 
+  #TODO: add test
   def upvote
     @work = Work.find_by(id: params[:id])
 
@@ -94,7 +94,6 @@ class WorksController < ApplicationController
 
     user = User.find_by(id: session[:user_id])
 
-
     if user
       previous_vote = @work.votes.find { |vote| vote.user_id == user.id }
       if previous_vote
@@ -104,9 +103,7 @@ class WorksController < ApplicationController
           flash[:success] =  "Successfully upvoted!"
         else
           flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
-          @work.errors.each do |attribute, message|
-            flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
-          end
+          @work.errors.each { |attribute, message| flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. " }
         end
       end
     else

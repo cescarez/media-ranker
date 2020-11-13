@@ -51,7 +51,7 @@
     <% if flash.any? %>
       <section class="alert__container">
         <% flash.each do  |name, message| %>
-          <div class="<%= name %>">
+          <div class="<%= name.to_s == "error" ? "alert alert-danger" : "alert alert-success" %>">
             <%= message %>
           </div>
         <% end %>
