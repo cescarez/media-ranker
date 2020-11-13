@@ -99,7 +99,7 @@ describe UsersController do
       existing_user = users(:user1)
 
       expect{
-        perform_login(existing_user.name)
+        perform_login(existing_user)
       }.wont_change "User.count"
 
       #the user.id == session[:id] expectation happens in test_helper
@@ -141,63 +141,16 @@ describe UsersController do
 
   describe "current" do
     it "returns 200 OK for a logged-in user" do
-      user = perform_login
+      perform_login
 
-      # Verify the user ID was saved - if that didn't work, this test is invalid
-      expect(session[:user_id]).must_equal user.id
+      expect(session[:user_id]).wont_be_nil
 
-      # Act
-      get current_user_path
+      expect {
+        get current_user_path
+      }.wont_change "session[:user_id]"
 
-      # Assert
+
       must_respond_with :success
     end
   end
-
-  # describe "edit" do
-  #   it "responds with success for an existing, valid driver" do
-  #     user = users(:user1)
-  #     get edit_user_path(user.id)
-  #     must_respond_with :success
-  #   end
-  #
-  #   it "responds with redirect when getting the edit page for a non-existing user" do
-  #     get edit_user_path(-1)
-  #     must_respond_with :not_found
-  #   end
-  # end
-
-  # describe "update" do
-  #   it "successful save redirects to show page when updating an existing driver with valid params" do
-  #     user = users(:user1)
-  #     expect {
-  #       patch user_path(user.id), params: user_hash
-  #     }.wont_change "User.count"
-  #
-  #     must_redirect_to user_path(user.id)
-  #
-  #     user.reload
-  #
-  #     expect(user[:name]).must_equal user_hash[:user][:name]
-  #   end
-  #
-  #   it "responds with bad_request when attempting to update an existing driver with invalid params" do
-  #     user = users(:user1)
-  #
-  #     expect {
-  #       patch user_path(user.id), params: {user: {name: nil}}
-  #     }.wont_change "User.count"
-  #
-  #     must_respond_with :bad_request
-  #   end
-  #
-  #   it "responds with not_found when attempting to update an invalid driver with valid params" do
-  #     expect {
-  #       patch user_path(-1), params: user_hash
-  #     }.wont_change "User.count"
-  #
-  #     must_respond_with :not_found
-  #   end
-  # end
-
 end

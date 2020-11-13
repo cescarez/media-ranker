@@ -68,7 +68,6 @@ class UsersController < ApplicationController
     return
   end
 
-  #TODO: why is this ending in a 404 redirect???
   def current
     @current_user = User.find_by(id: session[:user_id])
 

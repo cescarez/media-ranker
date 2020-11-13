@@ -19,9 +19,7 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
-  def perform_login(username = nil)
-    user = User.find_by(name: username)
-
+  def perform_login(user = nil)
     user ||= User.first
 
     login_data = {
