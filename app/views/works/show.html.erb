@@ -5,8 +5,8 @@
     <p>Published: <%= @work.publication_year.year %></p>
     <p><%= @work.description %></p>
     <section class="work-buttons">
-      <%= button_to "Back to media ranks", root_path, class: "btn btn-primary" %>
-      <%= button_to "Edit", edit_work_path(@work.id), class: "btn btn-primary" %>
+      <%= button_to "Back to media ranks", root_path, method: :get, class: "btn btn-primary" %>
+      <%= button_to "Edit", edit_work_path(@work.id), method: :get, class: "btn btn-primary" %>
       <%= button_to "Upvote", '/works/:id/upvote', class: "btn btn-primary" %>
       <%= button_to "Delete", work_path(@work.id), method: :delete, data: { confirm: "Are you sure you want to delete this #{@work.category}?" }, class: "btn btn-danger" %>
     </section>
