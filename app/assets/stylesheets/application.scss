@@ -52,6 +52,12 @@
     list-style: none;
 }
 
+
+
+main {
+  padding: 2rem;
+}
+
 .app-header__nav {
     display: flex;
     flex-direction: row;
@@ -62,6 +68,9 @@
 }
 .app-header__header nav a {
   color: #00796B;
+}
+.alert__container {
+    margin: 2rem 0 1rem 0;
 }
 
 body {
@@ -108,7 +117,7 @@ small, .small {
 .btn:hover {
     background-color: #00796B;
     color: white;
-text-decoration: none;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
