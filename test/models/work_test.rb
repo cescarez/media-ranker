@@ -96,17 +96,17 @@ describe Work do
         expect(top_work.id).must_equal other_work.id
       end
 
-      it "in cases of ties, will select the work with the most recent vote" do
-        vote1 = Vote.create!(work: other_work, user: @user1)
+      it "in cases of ties, will select the work added to db first" do
+        vote1 = Vote.create!(work: another_work, user: @user1)
         vote2 = Vote.create!(work: work, user: @user2)
-        vote3 = Vote.create!(work: another_work, user: @user1)
-        vote4 = Vote.create!(work: other_work, user: @user1)
-        vote6 = Vote.create!(work: work, user: @user2)
-        vote5 = Vote.create!(work: another_work, user: @user1)
+        vote3 = Vote.create!(work: other_work, user: @user1)
+        vote4 = Vote.create!(work: another_work, user: @user1)
+        vote5 = Vote.create!(work: work, user: @user2)
+        vote6 = Vote.create!(work: other_work, user: @user1)
 
         top_work = Work.spotlight
 
-        expect(top_work.id).must_equal another_work.id
+        expect(top_work.id).must_equal work.id
       end
     end
 
@@ -195,7 +195,6 @@ describe Work do
 
       #####################
       describe "books" do
-
         before do
           @winning_work.update(category: "book")
           @losing_work.update(category: "book")
@@ -320,6 +319,52 @@ describe Work do
           expect(top_ten).must_be_empty
         end
       end
+
+    end
+
+    describe "ordered_filter" do
+      describe "albums" do
+        before do
+          work.update(category: "album")
+          other_work.update(category: "album")
+          another_work.update(category: "album")
+        end
+
+        it "returns an ordered list of albums by vote" do
+          2.times do
+            Vote.create!(work: work, user: @user1)
+          end
+          3.times do
+            Vote.create!(work: other_work, user: @user2)
+          end
+          5.times do
+            Vote.create!(work: another_work, user: @user2)
+          end
+
+          albums_by_vote = Work.ordered_filter("album")
+
+          albums_by_vote.each_with_index do |work, index|
+
+            if index > 0
+              less_than_previous = work.votes.length < albums_by_vote[index - 1].votes.length
+              expect(less_than_previous).must_equal true
+            end
+
+            if albums_by_vote[index + 1]
+              greater_than_next = work.votes.length > albums_by_vote[index + 1].votes.length
+              expect(greater_than_next).must_equal true
+            end
+
+          end
+
+        end
+
+
+      end
+      ########
+    end
+
+    describe "add_vote" do
 
     end
 

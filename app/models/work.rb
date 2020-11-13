@@ -17,7 +17,7 @@ class Work < ApplicationRecord
   end
 
   def self.spotlight
-    return Work.all.max_by { |work| work.votes.length }
+    return Work.all.sort_by { |work| work.votes.length }.last
   end
 
   def self.top_ten(category)
@@ -26,7 +26,7 @@ class Work < ApplicationRecord
 
   #TODO: add test
   def self.ordered_filter(category)
-    return Work.all.filter { |work| work.category == category }.sort_by { |work| work.votes.length }
+    return Work.all.filter { |work| work.category == category }.sort_by { |work| -work.votes.length }
   end
 
   #TODO: add test
