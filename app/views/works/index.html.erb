@@ -11,13 +11,15 @@
         <th scope="col">Upvote</th>
       </tr>
       <% Work.ordered_filter("album").each do |work| %>
-        <tr>
-          <th scope="row"><%= work.votes.length %></th>
-          <td><%= link_to work.title, work_path(work.id) %></td>
-          <td><%= work.creator %></td>
-          <td><%= work.publication_year.year %></td>
-          <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
-        </tr>
+        <% if work %>
+          <tr>
+            <th scope="row"><%= work.votes.length %></th>
+            <td><%= link_to work.title, work_path(work.id) %></td>
+            <td><%= work.creator %></td>
+            <td><%= work.publication_year.year %></td>
+            <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
+          </tr>
+        <% end %>
       <% end %>
     </table>
   </section>
@@ -33,13 +35,15 @@
         <th scope="col">Upvote</th>
       </tr>
       <% Work.ordered_filter("book").each do |work| %>
-        <tr>
-          <th scope="row"><%= work.votes.length %></th>
-          <td><%= link_to work.title, work_path(work.id) %></td>
-          <td><%= work.creator %></td>
-          <td><%= work.publication_year %></td>
-          <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
-        </tr>
+        <% if work %>
+          <tr>
+            <th scope="row"><%= work.votes.length %></th>
+            <td><%= link_to work.title, work_path(work.id) %></td>
+            <td><%= work.creator %></td>
+            <td><%= work.publication_year %></td>
+            <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
+          </tr>
+        <% end %>
       <% end %>
     </table>
   </section>
@@ -55,13 +59,15 @@
         <th scope="col">Upvote</th>
       </tr>
       <% Work.ordered_filter("movie").each do |work| %>
-        <tr>
-          <th scope="row"><%= work.votes.length %></th>
-          <td><%= link_to work.title, work_path(work.id) %></td>
-          <td><%= work.creator %></td>
-          <td><%= work.publication_year.year %></td>
-          <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
-        </tr>
+        <% if work %>
+          <tr>
+            <th scope="row"><%= work.votes.length %></th>
+            <td><%= link_to work.title, work_path(work.id) %></td>
+            <td><%= work.creator %></td>
+            <td><%= work.publication_year.year %></td>
+            <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
+          </tr>
+        <% end %>
       <% end %>
     </table>
   </section>

@@ -9,11 +9,13 @@
         <th scope="col">Joined</th>
       </tr>
       <% User.all.each do |user| %>
-        <tr>
-          <td><%= link_to user.name, user_path(user.id) %></td>
-          <td><%= user.votes.length %></td>
-          <td><%= user.created_at.strftime("%b %d, %Y") %></td>
-        </tr>
+        <% if user %>
+          <tr>
+            <td><%= link_to user.name, user_path(user.id) %></td>
+            <td><%= user.votes.length %></td>
+            <td><%= user.created_at.strftime("%b %d, %Y") %></td>
+          </tr>
+        <% end %>
       <% end %>
     </table>
   </section>
