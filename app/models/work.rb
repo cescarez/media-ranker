@@ -25,6 +25,7 @@ class Work < ApplicationRecord
   end
 
   def self.ordered_filter(category)
+    raise ArgumentError, "Invalid work category, #{category}. Please enter 'album', 'book', or 'movie'." unless VALID_CATEGORIES.include? category
     return Work.all.filter { |work| work.category == category }.sort_by { |work| -work.votes.length }
   end
 

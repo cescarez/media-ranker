@@ -354,7 +354,14 @@ describe Work do
             end
           end
         end
+
+        it "returns an empty list if there are not works of that type in the db" do
+          Work.delete_all
+          albums_by_vote = Work.ordered_filter("album")
+          expect(albums_by_vote).must_be_empty
+        end
       end
+
       ########
       describe "books" do
         before do
@@ -387,7 +394,14 @@ describe Work do
             end
           end
         end
+
+        it "returns an empty list if there are not works of that type in the db" do
+          Work.delete_all
+          books_by_vote = Work.ordered_filter("book")
+          expect(books_by_vote).must_be_empty
+        end
       end
+
       ########
       describe "movies" do
         before do
@@ -420,6 +434,19 @@ describe Work do
             end
           end
         end
+
+        it "returns an empty list if there are not works of that type in the db" do
+          Work.delete_all
+          movies_by_vote = Work.ordered_filter("movie")
+          expect(movies_by_vote).must_be_empty
+        end
+      end
+
+      #TODO
+      it "raises an Argument Error if any category other than 'album', 'book', or 'category' is entered" do
+        expect {
+          Work.ordered_filter("krabby_patties")
+        }.must_raise ArgumentError
       end
     end
 
