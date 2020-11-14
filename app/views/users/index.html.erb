@@ -12,9 +12,12 @@
         <tr>
           <td><%= link_to user.name, user_path(user.id) %></td>
           <td><%= user.votes.length %></td>
-          <td><%= user.created_at.strftime("%m/%d/%Y") %></td>
+          <td><%= user.created_at.strftime("%b %d, %Y") %></td>
         </tr>
       <% end %>
     </table>
   </section>
+  <section>
+    <%= button_to "Back to Media List", root_path, method: :get, class: "btn btn-secondary" %>
+  </secion>
 </main>

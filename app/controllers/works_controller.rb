@@ -50,6 +50,7 @@ class WorksController < ApplicationController
       return
     elsif @work.update(work_params)
       @work.validate_category
+      flash[:success] =  "#{@work.category.capitalize} successfully updated. "
       redirect_to work_path(@work.id)
       return
     else
