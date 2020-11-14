@@ -1,0 +1,9 @@
+vote1:
+  user: user1
+  work: album1
+vote2:
+  user: user2
+  work: book1
+vote3:
+  user: user1
+  work: album1

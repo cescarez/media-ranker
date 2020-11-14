@@ -4,14 +4,12 @@ movie1:
   creator: Brad Bird and Jan Pinkava
   publication_year: 2007-11-12 10:00:12 -0800
   description:  A rat who can cook makes an unusual alliance with a young kitchen worker at a famous restaurant.
-
 book1:
   category: book
   title: Understanding Comics ":" The Invisible Art
   creator: Scott McCloud
   publication_year: 1993-11-12 10:00:12 -0800
   description: A comic book about comic books.
-
 album1:
   category: album
   title: Chipmunks in Low Places
