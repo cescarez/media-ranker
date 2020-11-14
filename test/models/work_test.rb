@@ -96,7 +96,10 @@ describe Work do
         expect(top_work.id).must_equal other_work.id
       end
 
-      it "in cases of ties, will select the work added to db first" do
+      it "in cases of ties, will select the work added to db last" do
+        work
+        other_work
+        another_work
         vote1 = Vote.create!(work: another_work, user: @user1)
         vote2 = Vote.create!(work: work, user: @user2)
         vote3 = Vote.create!(work: other_work, user: @user1)
@@ -106,7 +109,7 @@ describe Work do
 
         top_work = Work.spotlight
 
-        expect(top_work.id).must_equal work.id
+        expect(top_work.id).must_equal another_work.id
       end
     end
 

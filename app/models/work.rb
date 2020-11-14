@@ -17,7 +17,7 @@ class Work < ApplicationRecord
   end
 
   def self.spotlight
-    return Work.all.sort_by { |work| work.votes.length }.last
+    return Work.all.max_by { |work| work.votes.length }
   end
 
   def self.top_ten(category)
