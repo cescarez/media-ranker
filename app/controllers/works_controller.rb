@@ -54,7 +54,9 @@ class WorksController < ApplicationController
       return
     else
       flash.now[:error] =  "Error occurred. #{@work.category.capitalize} did not save. "
-      @work.errors.each { |attribute, message| flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. " }
+      @work.errors.each do |attribute, message|
+        flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. "
+      end
       flash.now[:error] << "Please try again."
 
       render :edit, status: :bad_request
@@ -82,7 +84,6 @@ class WorksController < ApplicationController
     end
   end
 
-  #TODO: add test
   def upvote
     @work = Work.find_by(id: params[:id])
 

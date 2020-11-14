@@ -142,4 +142,40 @@ describe WorksController do
       must_respond_with :not_found
     end
   end
+
+  describe "upvote" do
+    before do
+      @work = works(:album1)
+      @user = users(:user1)
+    end
+
+    it "get success message and redirect when a logged in user upvotes" do
+      perform_login(@user)
+
+      post upvote_work_path(@work.id), params: {id: @work.id}
+
+      must_respond_with :redirect
+      expect(flash[:success]).wont_be_nil
+      expect(flash[:error]).must_be_nil
+    end
+
+    it "error message added and get redirect if a logged in user attempts to upvote a work they already voted for" do
+      perform_login(@user)
+
+      post upvote_work_path(@work.id), params: {id: @work.id}
+      post upvote_work_path(@work.id), params: {id: @work.id}
+
+      must_respond_with :redirect
+      expect(flash[:success]).wont_be_nil
+      expect(flash[:error]).wont_be_nil
+    end
+
+    it "error message added and get redirect when no user is logged in and upvote is attempted" do
+      post upvote_work_path(@work.id), params: {id: @work.id}
+
+      must_respond_with :redirect
+      expect(flash[:success]).must_be_nil
+      expect(flash[:error]).wont_be_nil
+    end
+  end
 end

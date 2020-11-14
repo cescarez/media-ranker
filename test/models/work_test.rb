@@ -433,6 +433,7 @@ describe Work do
 
         expect(vote).must_be_instance_of Vote
       end
+
       it "returns nil for a non-existing user" do
         vote = nil
 
