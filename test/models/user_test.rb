@@ -11,7 +11,7 @@ describe User do
 
     it "will have the required fields" do
       expect(user).must_respond_to :name
-      expect(user).must_respond_to :join_date
+      expect(user).must_respond_to :created_at
     end
   end
 

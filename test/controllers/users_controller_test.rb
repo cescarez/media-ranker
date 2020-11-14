@@ -2,7 +2,7 @@ require "test_helper"
 
 describe UsersController do
   let (:user_hash) do
-    {user: {name: "Test book", join_date: Time.now}}
+    {user: {name: "Test book"}}
   end
 
   describe "index" do
@@ -28,7 +28,7 @@ describe UsersController do
 
     it "does not post an invalid new user and responds with bad_request" do
       expect {
-        post users_path, params: {user: {name: nil, join_date: Time.now}}
+        post users_path, params: {user: {name: nil}}
       }.wont_change "User.count"
 
       must_respond_with :bad_request

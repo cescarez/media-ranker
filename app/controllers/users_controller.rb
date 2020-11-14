@@ -5,7 +5,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @user.join_date = Time.now
 
     if @user.save
       redirect_to user_path(@user.id)
@@ -101,6 +100,6 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    return params.require(:user).permit(:name, :join_date)
+    return params.require(:user).permit(:name)
   end
 end
