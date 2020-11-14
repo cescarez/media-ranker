@@ -21,8 +21,8 @@
         <th scope="col">User</th>
         <th scope="col">Date</th>
       </tr>
-      <% if @work.votes.length > 0 %>
-        <% @work.votes.each do |vote| %>
+      <% @work.votes.each do |vote| %>
+        <% if vote %>
           <tr>
             <td><%= link_to vote.user.name, user_path(vote.user.id) %></td>
             <td><%= vote.submit_date.strftime("%b %d, %Y") %></td>
