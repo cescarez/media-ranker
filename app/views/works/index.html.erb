@@ -59,7 +59,7 @@
           <th scope="row"><%= work.votes.length %></th>
           <td><%= link_to work.title, work_path(work.id) %></td>
           <td><%= work.creator %></td>
-          <td><%= work.publication_year %></td>
+          <td><%= work.publication_year.year %></td>
           <td><%= button_to "Upvote", upvote_work_path(work.id), class: "btn btn-primary" %></td>
         </tr>
       <% end %>

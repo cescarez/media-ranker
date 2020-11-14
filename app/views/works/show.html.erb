@@ -23,7 +23,7 @@
       </tr>
       <% @work.votes.each do |vote| %>
         <tr>
-          <td><%= vote.user.name %></td>
+          <td><%= link_to vote.user.name, user_path(vote.user.id) %></td>
           <td><%= vote.submit_date %></td>
         </tr>
       <% end %>
