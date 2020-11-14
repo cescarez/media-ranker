@@ -78,6 +78,7 @@ class UsersController < ApplicationController
     return
   end
 
+  #not currently implemented in view, but controller method and route left in
   def destroy
     @user = User.find_by(id: params[:id])
 
@@ -85,7 +86,8 @@ class UsersController < ApplicationController
       render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     end
-    @user.votes.delete_all #is this necessary? TODO: investigate what happens when a user is deleted and view a work's list of votes
+
+    @user.votes.destroy_all
 
     if @user.destroy
       redirect_to users_path

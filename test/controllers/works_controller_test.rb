@@ -143,6 +143,7 @@ describe WorksController do
     end
   end
 
+  #TODO: is this test written correctly?
   describe "upvote" do
     before do
       @work = works(:album1)
