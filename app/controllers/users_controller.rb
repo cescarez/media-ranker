@@ -79,25 +79,25 @@ class UsersController < ApplicationController
   end
 
   #not currently implemented in view, but controller method and route left in
-  def destroy
-    @user = User.find_by(id: params[:id])
-
-    if @user.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    end
-
-    @user.votes.destroy_all
-
-    if @user.destroy
-      redirect_to users_path
-      return
-    else
-      flash[:error] =  "Error occurred. User did not delete. Please try again."
-      redirect_to user_path(@user.id), status: :bad_request
-      return
-    end
-  end
+  # def destroy
+  #   @user = User.find_by(id: params[:id])
+  #
+  #   if @user.nil?
+  #     render file: "#{Rails.root}/public/404.html", status: :not_found
+  #     return
+  #   end
+  #
+  #   @user.votes.destroy_all
+  #
+  #   if @user.destroy
+  #     redirect_to users_path
+  #     return
+  #   else
+  #     flash[:error] =  "Error occurred. User did not delete. Please try again."
+  #     redirect_to user_path(@user.id), status: :bad_request
+  #     return
+  #   end
+  # end
 
   private
 

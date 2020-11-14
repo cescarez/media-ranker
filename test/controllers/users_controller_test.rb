@@ -48,30 +48,31 @@ describe UsersController do
     end
   end
 
-  describe "destroy" do
-    it "destroys an existing user then redirects" do
-      user = users(:user1)
-
-      expect {
-        delete user_path(user.id)
-      }.must_differ "User.count", -1
-
-      found_user = User.find_by(name: user.name)
-
-      expect(found_user).must_be_nil
-
-      must_redirect_to users_path
-
-    end
-
-    it "does not change the db when the driver does not exist, then responds with " do
-      expect{
-        delete user_path(-1)
-      }.wont_change "User.count"
-
-      must_respond_with :not_found
-    end
-  end
+  # ##### user#destroy not implemented
+  # describe "destroy" do
+  #   it "destroys an existing user then redirects" do
+  #     user = users(:user1)
+  #
+  #     expect {
+  #       delete user_path(user.id)
+  #     }.must_differ "User.count", -1
+  #
+  #     found_user = User.find_by(name: user.name)
+  #
+  #     expect(found_user).must_be_nil
+  #
+  #     must_redirect_to users_path
+  #
+  #   end
+  #
+  #   it "does not change the db when the driver does not exist, then responds with " do
+  #     expect{
+  #       delete user_path(-1)
+  #     }.wont_change "User.count"
+  #
+  #     must_respond_with :not_found
+  #   end
+  # end
 
   describe "login form" do
     it "responds with success when accessed" do

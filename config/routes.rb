@@ -5,15 +5,14 @@ Rails.application.routes.draw do
 
   get '/users/current', to: 'users#current', as: 'current_user'
 
-  resources :users, except: [:new, :update, :edit]
-
-
   get '/login', to: 'users#login_form', as: 'login'
   post '/login', to: 'users#login'
   post '/logout', to: 'users#logout', as: 'logout'
 
-  resources :works
+  resources :users, only: [:create, :index, :show]
 
   post '/works/:id/upvote', to: 'works#upvote', as: "upvote_work"
+
+  resources :works
 
 end
