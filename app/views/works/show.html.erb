@@ -24,7 +24,7 @@
       <% @work.votes.each do |vote| %>
         <tr>
           <td><%= link_to vote.user.name, user_path(vote.user.id) %></td>
-          <td><%= vote.submit_date %></td>
+          <td><%= vote.submit_date.strftime("%b %d, %Y") %></td>
         </tr>
       <% end %>
     </table>

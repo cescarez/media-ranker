@@ -18,9 +18,9 @@
         <tr>
           <td><%= link_to vote.work.title, work_path(vote.work.id) %></td>
           <td><%= vote.work.creator %></td>
-          <td><%= vote.work.publication_year %></td>
+          <td><%= vote.work.publication_year.year %></td>
           <td><%= vote.work.category %></td>
-          <td><%= vote.submit_date %></td>
+          <td><%= vote.submit_date.strftime("%b %d, %Y") %></td>
         </tr>
       <% end %>
     </table>
