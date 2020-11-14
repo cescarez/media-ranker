@@ -32,12 +32,12 @@
           </li>
         </ul>
         <ul class="nav app-header__user-nav-container">
-          <% if session[:user_id].nil? %>
+          <% user = User.find_by(id: session[:user_id]) %>
+          <% if user.nil? %>
             <li class="nav-item app-header__nav_item">
               <%= button_to "Log In", login_path, method: :get, class: "btn btn-primary" %>
             </li>
           <% else %>
-            <% user = User.find_by(id: session[:user_id]) %>
             <li class="nav-item app-header__nav_item">
               <%= button_to "Logged in as #{user.name}", user_path(user.id), method: :get, class: "btn btn-primary" %>
             </li>
