@@ -75,6 +75,15 @@ main {
     margin: 2rem 0 1rem 0;
 }
 
+table a, h2 a {
+ color: #26a69a;
+}
+
+table a:hover, h2 a:hover {
+  color: #00796B;
+  text-decoration: none;
+}
+
 body {
   color: #212529;
   font-size: 1rem;

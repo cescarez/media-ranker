@@ -73,7 +73,7 @@ class WorksController < ApplicationController
       return
     end
 
-    @work.votes.delete_all #is this necessary? TODO: investigate what happens when a work is deleted and view a user's list of votes
+    @work.votes.destroy_all
 
     if @work.destroy
       redirect_to works_path
