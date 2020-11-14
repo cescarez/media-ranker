@@ -5,7 +5,9 @@
         Media Spotlight:
       </span>
       <% top_work = Work.spotlight %>
-      <%= link_to top_work.title, work_path(top_work.id), class: "spotlight__link-to" %> by <%= top_work.creator %>
+      <% if top_work %>
+        <%= link_to top_work.title, work_path(top_work.id), class: "spotlight__link-to" %> by <%= top_work.creator %>
+      <% end %>
     </h2>
     <p><%= top_work.votes.length %> votes - <%= top_work.description %></p>
   </section>
@@ -16,8 +18,10 @@
       <ul class="list-group top-ten__list">
         <% Work.top_ten("movie").each do |movie| %>
           <li class="list-group-item">
-            <h4><%= link_to movie.title, work_path(movie.id) %> <small class="top-ten__creator">by <%= movie.creator %></small></h4>
-            <p><%= movie.votes.length %> votes</p>
+            <% if movie %>
+              <h4><%= link_to movie.title, work_path(movie.id) %> <small class="top-ten__creator">by <%= movie.creator %></small></h4>
+              <p><%= movie.votes.length %> votes</p>
+            <% end %>
           </li>
         <% end %>
       </ul>
@@ -27,8 +31,10 @@
       <ul class="list-group top-ten__list">
         <% Work.top_ten("book").each do |book| %>
           <li class="list-group-item">
-            <h4><%= link_to book.title, work_path(book.id) %> <small class="top-ten__creator">by <%= book.creator %></small></h4>
-            <p><%= book.votes.length %> votes</p>
+            <% if book %>
+              <h4><%= link_to book.title, work_path(book.id) %> <small class="top-ten__creator">by <%= book.creator %></small></h4>
+              <p><%= book.votes.length %> votes</p>
+            <% end %>
           </li>
         <% end %>
       </ul>
@@ -38,8 +44,10 @@
       <ul class="list-group top-ten__list">
         <% Work.top_ten("album").each do |album| %>
           <li class="list-group-item">
-            <h4><%= link_to album.title, work_path(album.id) %> <small class="top-ten__creator">by <%= album.creator %></small></h4>
-            <p><%= album.votes.length %> votes</p>
+            <% if album %>
+              <h4><%= link_to album.title, work_path(album.id) %> <small class="top-ten__creator">by <%= album.creator %></small></h4>
+              <p><%= album.votes.length %> votes</p>
+            <% end %>
           </li>
         <% end %>
       </ul>
