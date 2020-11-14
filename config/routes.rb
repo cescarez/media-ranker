@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  root :to => "homepages#index", :id => '1'
+  root to: "homepages#index"
 
 
   get '/users/current', to: 'users#current', as: 'current_user'
