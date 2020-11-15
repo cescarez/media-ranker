@@ -15,20 +15,11 @@ describe User do
     end
   end
 
-  let (:work1) { works(:album1) }
-  let (:work2) { works(:book1) }
-  let (:work3) { works(:movie1) }
 
   describe "relationships" do
     it "can have multiple votes" do
-      vote1 = Vote.create!(work: work1, user: user)
-      vote2 = Vote.create!(work: work3, user: other_user)
-      vote3 = Vote.create!(work: work2, user: user)
-      vote4 = Vote.create!(work: work3, user: user)
-      vote5 = Vote.create!(work: work3, user: other_user)
-
-      expect(user.votes.count).must_equal 3
-      expect(other_user.votes.count).must_equal 2
+      expect(user.votes.count).must_equal 15 #see votes.yml
+      expect(other_user.votes.count).must_equal 15 #see votes.yml
       user.votes.each do |vote|
         expect(vote).must_be_instance_of Vote
       end
