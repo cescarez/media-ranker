@@ -4,6 +4,8 @@ describe Work do
   let (:work) { works(:album1) }
   let (:other_work) { works(:book1) }
   let (:another_work) { works(:movie1) }
+  let (:user1) { users(:user1) }
+  let (:user2) { users(:user2) }
 
   describe "instantiation" do
     it "can be instantiated" do
@@ -19,13 +21,7 @@ describe Work do
 
   describe "relationships" do
     it "can have multiple votes" do
-      new_user1 = users(:user1)
-      new_user2 = users(:user2)
-      vote1 = Vote.create!(work: work, user: new_user1)
-      vote2 = Vote.create!(work: work, user: new_user2)
-      vote3 = Vote.create!(work: other_work, user: new_user1)
-
-      expect(work.votes.count).must_equal 2
+      expect(work.votes.count).must_equal 10 #see works.yml
       work.votes.each do |vote|
         expect(vote).must_be_instance_of Vote
       end
@@ -79,245 +75,142 @@ describe Work do
       end
     end
 
-    before do
-      @user1 = users(:user1)
-      @user2 = users(:user2)
-    end
 
     describe "spotlight" do
       it "will select the work with the most votes" do
-        vote1 = Vote.create!(work: work, user: @user1)
-        vote2 = Vote.create!(work: other_work, user: @user2)
-        vote3 = Vote.create!(work: other_work, user: @user1)
-        vote4 = Vote.create!(work: another_work, user: @user1)
+        Vote.create!(work: other_work, user: user1) #adds 11th vote for other_work == works(:book1)
 
         top_work = Work.spotlight
 
         expect(top_work.id).must_equal other_work.id
       end
 
-      it "in cases of ties, will select the work added to db last" do
-        work
-        other_work
-        another_work
-        vote1 = Vote.create!(work: another_work, user: @user1)
-        vote2 = Vote.create!(work: work, user: @user2)
-        vote3 = Vote.create!(work: other_work, user: @user1)
-        vote4 = Vote.create!(work: another_work, user: @user1)
-        vote5 = Vote.create!(work: work, user: @user2)
-        vote6 = Vote.create!(work: other_work, user: @user1)
-
+      it "in cases of ties, will select the work added to db earliest" do
+        #works.yml currently has 10 voces for each works(:album1), works(:book1), works(:movie1)
         top_work = Work.spotlight
 
-        expect(top_work.id).must_equal another_work.id
+        expect(top_work.id).must_equal work.id #see works.yml; album1 is first
       end
     end
 
     describe "top_ten" do
-
       before do
-        @user = users(:user1)
-
         @losing_works = []
         @winning_works = []
-
-        @winning_work = {
-          category: "album",
-          creator: "Winner",
-          publication_year: Time.now
-        }
-
-        @losing_work = {
-          category: "album",
-          creator: "Loser",
-          publication_year: Time.now
-        }
       end
 
       describe "albums" do
         before do
-          @winning_work.update(category: "album")
-          @losing_work.update(category: "album")
+          @category = "album"
         end
 
         it "selects top ten albums based on votes" do
-          12.times do |count|
-            @losing_work[:title] = "Losing album #{count}"
-            @winning_work[:title] = "Winning album #{count}"
-            @losing_works << Work.create(@losing_work)
-            @winning_works << Work.create(@winning_work)
+          10.times do |count|
+            @losing_works << works("losing_#{@category}#{count + 1}".to_sym)
+            @winning_works << works("winning_#{@category}#{count + 1}".to_sym)
           end
 
-          @losing_works.each do |work|
-            Vote.create!(work: work, user: @user)
+          @losing_works.each do |losing_work|
+            Vote.create!(work: losing_work, user: user1)
+          end
+          @winning_works.each do |winning_work|
+            count = 0
+            until count > work.votes.length do
+              Vote.create!(work: winning_work, user: user1)
+              count += 1
+            end
           end
 
-          @winning_works.each do |work|
-            Vote.create!(work: work, user: @user)
-            Vote.create!(work: work, user: @user)
-          end
-
-          top_ten = Work.top_ten("album")
+          top_ten = Work.top_ten(@category)
 
           expect(top_ten.length).must_equal 10
 
-          top_ten.each do |work|
-            expect(@winning_works).must_include work
-          end
-        end
-
-        it "selects all albums if there are less than ten in db" do
-          db_works = Work.all.filter { |work| work.category == "album" }
-          num_new_works = 5
-
-          num_new_works.times do |count|
-            @winning_work[:title] = "Winning album #{count}"
-            @winning_works << Work.create(@winning_work)
-          end
-
-          @winning_works.each do |work|
-            Vote.create!(work: work, user: @user)
-          end
-
-          top_ten = Work.top_ten("album")
-
-          expect(top_ten.length).must_equal num_new_works + db_works.length
-
-          top_ten.each do |work|
-            expect(@winning_works += db_works).must_include work
+          top_ten.each do |top_work|
+            expect(@winning_works).must_include top_work
           end
         end
 
         it "returns an empty list when the db is empty" do
           Work.delete_all
-          top_ten = Work.top_ten("album")
+          top_ten = Work.top_ten(@category)
           expect(top_ten.length).must_equal 0
           expect(top_ten).must_be_empty
         end
       end
 
-      #####################
       describe "books" do
         before do
-          @winning_work.update(category: "book")
-          @losing_work.update(category: "book")
+          @category = "book"
         end
 
-        it "selects top ten books based on votes" do
-
-          12.times do |count|
-            @losing_work[:title] = "Losing book #{count}"
-            @winning_work[:title] = "Winning book #{count}"
-            @losing_works << Work.create(@losing_work)
-            @winning_works << Work.create(@winning_work)
+        it "selects top ten albums based on votes" do
+          10.times do |count|
+            @losing_works << works("losing_#{@category}#{count + 1}".to_sym)
+            @winning_works << works("winning_#{@category}#{count + 1}".to_sym)
           end
 
-          @losing_works.each do |work|
-            Vote.create!(work: work, user: @user)
+          @losing_works.each do |losing_work|
+            Vote.create!(work: losing_work, user: user1)
+          end
+          @winning_works.each do |winning_work|
+            count = 0
+            until count > work.votes.length do
+              Vote.create!(work: winning_work, user: user1)
+              count += 1
+            end
           end
 
-          @winning_works.each do |work|
-            Vote.create!(work: work, user: @user)
-            Vote.create!(work: work, user: @user)
-          end
-
-          top_ten = Work.top_ten("book")
+          top_ten = Work.top_ten(@category)
 
           expect(top_ten.length).must_equal 10
 
-          top_ten.each do |work|
-            expect(@winning_works).must_include work
-          end
-        end
-
-        it "selects all books if there are less than ten in db" do
-          db_works = Work.all.filter { |work| work.category == "book" }
-          num_new_works = 5
-
-          num_new_works.times do |count|
-            @winning_work[:title] = "Winning book #{count}"
-            @winning_works << Work.create(@winning_work)
-          end
-
-          @winning_works.each do |work|
-            Vote.create!(work: work, user: @user)
-          end
-
-          top_ten = Work.top_ten("book")
-
-          expect(top_ten.length).must_equal num_new_works + db_works.length
-
-          top_ten.each do |work|
-            expect(@winning_works += db_works).must_include work
+          top_ten.each do |top_work|
+            expect(@winning_works).must_include top_work
           end
         end
 
         it "returns an empty list when the db is empty" do
           Work.delete_all
-          top_ten = Work.top_ten("book")
+          top_ten = Work.top_ten(@category)
           expect(top_ten.length).must_equal 0
           expect(top_ten).must_be_empty
         end
       end
 
-      #####################
       describe "movies" do
         before do
-          @winning_work.update(category: "movie")
-          @losing_work.update(category: "movie")
+          @category = "book"
         end
 
-        it "selects top ten movies based on votes" do
-          12.times do |count|
-            @losing_work[:title] = "Losing movie #{count}"
-            @winning_work[:title] = "Winning movie #{count}"
-            @losing_works << Work.create(@losing_work)
-            @winning_works << Work.create(@winning_work)
+        it "selects top ten albums based on votes" do
+          10.times do |count|
+            @losing_works << works("losing_#{@category}#{count + 1}".to_sym)
+            @winning_works << works("winning_#{@category}#{count + 1}".to_sym)
           end
 
-          @losing_works.each do |work|
-            Vote.create!(work: work, user: @user)
+          @losing_works.each do |losing_work|
+            Vote.create!(work: losing_work, user: user1)
+          end
+          @winning_works.each do |winning_work|
+            count = 0
+            until count > work.votes.length do
+              Vote.create!(work: winning_work, user: user1)
+              count += 1
+            end
           end
 
-          @winning_works.each do |work|
-            Vote.create!(work: work, user: @user)
-            Vote.create!(work: work, user: @user)
-          end
-
-          top_ten = Work.top_ten("movie")
+          top_ten = Work.top_ten(@category)
 
           expect(top_ten.length).must_equal 10
 
-          top_ten.each do |work|
-            expect(@winning_works).must_include work
-          end
-        end
-
-        it "selects all books if there are less than ten in db" do
-          db_works = Work.all.filter { |work| work.category == "movie" }
-          num_new_works = 5
-
-          num_new_works.times do |count|
-            @winning_work[:title] = "Winning movie #{count}"
-            @winning_works << Work.create(@winning_work)
-          end
-
-          @winning_works.each do |work|
-            Vote.create!(work: work, user: @user)
-          end
-
-          top_ten = Work.top_ten("movie")
-
-          expect(top_ten.length).must_equal num_new_works + db_works.length
-
-          top_ten.each do |work|
-            expect(@winning_works += db_works).must_include work
+          top_ten.each do |top_work|
+            expect(@winning_works).must_include top_work
           end
         end
 
         it "returns an empty list when the db is empty" do
           Work.delete_all
-          top_ten = Work.top_ten("movie")
+          top_ten = Work.top_ten(@category)
           expect(top_ten.length).must_equal 0
           expect(top_ten).must_be_empty
         end
@@ -327,32 +220,26 @@ describe Work do
 
     describe "ordered_filter" do
       describe "albums" do
-        before do
-          work.update(category: "album")
-          other_work.update(category: "album")
-          another_work.update(category: "album")
-        end
-
         it "returns an ordered list of albums by vote" do
           2.times do
-            Vote.create!(work: work, user: @user1)
+            Vote.create!(work: works(:winning_album3), user: user1)
           end
           3.times do
-            Vote.create!(work: other_work, user: @user2)
+            Vote.create!(work: works(:winning_album2), user: user1)
           end
           5.times do
-            Vote.create!(work: another_work, user: @user2)
+            Vote.create!(work: works(:winning_album1), user: user2)
           end
 
           albums_by_vote = Work.ordered_filter("album")
 
           albums_by_vote.each_with_index do |work, index|
             if index > 0
-              less_than_previous = work.votes.length < albums_by_vote[index - 1].votes.length
+              less_than_previous = work.votes.length <= albums_by_vote[index - 1].votes.length
               expect(less_than_previous).must_equal true
             end
             if albums_by_vote[index + 1]
-              greater_than_next = work.votes.length > albums_by_vote[index + 1].votes.length
+              greater_than_next = work.votes.length >= albums_by_vote[index + 1].votes.length
               expect(greater_than_next).must_equal true
             end
           end
@@ -367,32 +254,26 @@ describe Work do
 
       ########
       describe "books" do
-        before do
-          work.update(category: "book")
-          other_work.update(category: "book")
-          another_work.update(category: "book")
-        end
-
         it "returns an ordered list of books by vote" do
           2.times do
-            Vote.create!(work: work, user: @user1)
+            Vote.create!(work: works(:winning_book3), user: user1)
           end
           3.times do
-            Vote.create!(work: other_work, user: @user2)
+            Vote.create!(work: works(:winning_book2), user: user1)
           end
           5.times do
-            Vote.create!(work: another_work, user: @user2)
+            Vote.create!(work: works(:winning_book1), user: user2)
           end
 
           books_by_vote = Work.ordered_filter("book")
 
           books_by_vote.each_with_index do |work, index|
             if index > 0
-              less_than_previous = work.votes.length < books_by_vote[index - 1].votes.length
+              less_than_previous = work.votes.length <= books_by_vote[index - 1].votes.length
               expect(less_than_previous).must_equal true
             end
             if books_by_vote[index + 1]
-              greater_than_next = work.votes.length > books_by_vote[index + 1].votes.length
+              greater_than_next = work.votes.length >= books_by_vote[index + 1].votes.length
               expect(greater_than_next).must_equal true
             end
           end
@@ -407,36 +288,30 @@ describe Work do
 
       ########
       describe "movies" do
-        before do
-          work.update(category: "movie")
-          other_work.update(category: "movie")
-          another_work.update(category: "movie")
-        end
-
-        it "returns an ordered list of movies by vote" do
+        it "returns an ordered list of books by vote" do
           2.times do
-            Vote.create!(work: work, user: @user1)
+            Vote.create!(work: works(:winning_movie3), user: user1)
           end
           3.times do
-            Vote.create!(work: other_work, user: @user2)
+            Vote.create!(work: works(:winning_movie2), user: user1)
           end
           5.times do
-            Vote.create!(work: another_work, user: @user2)
+            Vote.create!(work: works(:winning_movie1), user: user2)
           end
 
-          movies_by_vote = Work.ordered_filter("movie")
+        movies_by_vote = Work.ordered_filter("movie")
 
-          movies_by_vote.each_with_index do |work, index|
-            if index > 0
-              less_than_previous = work.votes.length < movies_by_vote[index - 1].votes.length
-              expect(less_than_previous).must_equal true
-            end
-            if movies_by_vote[index + 1]
-              greater_than_next = work.votes.length > movies_by_vote[index + 1].votes.length
-              expect(greater_than_next).must_equal true
-            end
+        movies_by_vote.each_with_index do |work, index|
+          if index > 0
+            less_than_previous = work.votes.length <= movies_by_vote[index - 1].votes.length
+            expect(less_than_previous).must_equal true
+          end
+          if movies_by_vote[index + 1]
+            greater_than_next = work.votes.length >= movies_by_vote[index + 1].votes.length
+            expect(greater_than_next).must_equal true
           end
         end
+      end
 
         it "returns an empty list if there are not works of that type in the db" do
           Work.delete_all
@@ -458,7 +333,7 @@ describe Work do
         vote = nil
 
         expect {
-          vote = work.add_vote(user: @user1)
+          vote = work.add_vote(user: user1)
         }.must_differ "Vote.count", 1
 
         expect(vote).must_be_instance_of Vote
