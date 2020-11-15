@@ -114,7 +114,7 @@ describe WorksController do
         patch work_path(-1), params: work_hash
       }.wont_change "Work.count"
 
-      must_respond_with :redirect
+      must_respond_with :not_found
     end
   end
 
@@ -139,7 +139,7 @@ describe WorksController do
         delete work_path(-1)
       }.wont_change "Work.count"
 
-      must_respond_with :redirect
+      must_respond_with :not_found
     end
   end
 
@@ -151,7 +151,8 @@ describe WorksController do
     end
 
     it "get success message and redirect when a logged in user upvotes" do
-      perform_login(@user)
+      new_user = User.create(name: "new user")
+      perform_login(new_user)
 
       post upvote_work_path(@work.id), params: {id: @work.id}
 
@@ -167,7 +168,7 @@ describe WorksController do
       post upvote_work_path(@work.id), params: {id: @work.id}
 
       must_respond_with :redirect
-      expect(flash[:success]).wont_be_nil
+      expect(flash[:success]).must_be_nil
       expect(flash[:error]).wont_be_nil
     end
 
