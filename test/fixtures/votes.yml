@@ -1,0 +1,90 @@
+vote1:
+  user: user1
+  work: album1
+vote2:
+  user: user1
+  work: album1
+vote3:
+  user: user1
+  work: album1
+vote4:
+  user: user1
+  work: album1
+vote5:
+  user: user1
+  work: album1
+vote6:
+  user: user2
+  work: album1
+vote7:
+  user: user2
+  work: album1
+vote8:
+  user: user2
+  work: album1
+vote9:
+  user: user2
+  work: album1
+vote10:
+  user: user2
+  work: album1
+vote11:
+  user: user1
+  work: book1
+vote12:
+  user: user1
+  work: book1
+vote13:
+  user: user1
+  work: book1
+vote14:
+  user: user1
+  work: book1
+vote15:
+  user: user1
+  work: book1
+vote16:
+  user: user2
+  work: book1
+vote17:
+  user: user2
+  work: book1
+vote18:
+  user: user2
+  work: book1
+vote19:
+  user: user2
+  work: book1
+vote20:
+  user: user2
+  work: book1
+vote21:
+  user: user1
+  work: movie1
+vote22:
+  user: user1
+  work: movie1
+vote23:
+  user: user1
+  work: movie1
+vote24:
+  user: user1
+  work: movie1
+vote25:
+  user: user1
+  work: movie1
+vote26:
+  user: user2
+  work: movie1
+vote27:
+  user: user2
+  work: movie1
+vote28:
+  user: user2
+  work: movie1
+vote29:
+  user: user2
+  work: movie1
+vote30:
+  user: user2
+  work: movie1
