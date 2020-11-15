@@ -25,7 +25,7 @@
         <% if vote %>
           <tr>
             <td><%= link_to vote.user.name, user_path(vote.user.id) %></td>
-            <td><%= vote.submit_date.strftime("%b %d, %Y") %></td>
+            <td><%= vote.submit_date ? vote.submit_date.strftime("%b %d, %Y") : nil %></td>
           </tr>
         <% end %>
       <% end %>

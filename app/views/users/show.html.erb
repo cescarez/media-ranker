@@ -20,7 +20,7 @@
           <td><%= vote.work.creator %></td>
           <td><%= vote.work.publication_year.year %></td>
           <td><%= vote.work.category %></td>
-          <td><%= vote.submit_date.strftime("%b %d, %Y") %></td>
+          <td><%= vote.submit_date ? vote.submit_date.strftime("%b %d, %Y") : nil %></td>
         </tr>
       <% end %>
     </table>
