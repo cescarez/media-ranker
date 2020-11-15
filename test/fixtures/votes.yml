@@ -1,90 +1,120 @@
 vote1:
   user: user1
   work: album1
+  submit_date: Time.now
 vote2:
   user: user1
   work: album1
+  submit_date: Time.now
 vote3:
   user: user1
   work: album1
+  submit_date: Time.now
 vote4:
   user: user1
   work: album1
+  submit_date: Time.now
 vote5:
   user: user1
   work: album1
+  submit_date: Time.now
 vote6:
   user: user2
   work: album1
+  submit_date: Time.now
 vote7:
   user: user2
   work: album1
+  submit_date: Time.now
 vote8:
   user: user2
   work: album1
+  submit_date: Time.now
 vote9:
   user: user2
   work: album1
+  submit_date: Time.now
 vote10:
   user: user2
   work: album1
+  submit_date: Time.now
 vote11:
   user: user1
   work: book1
+  submit_date: Time.now
 vote12:
   user: user1
   work: book1
+  submit_date: Time.now
 vote13:
   user: user1
   work: book1
+  submit_date: Time.now
 vote14:
   user: user1
   work: book1
+  submit_date: Time.now
 vote15:
   user: user1
   work: book1
+  submit_date: Time.now
 vote16:
   user: user2
   work: book1
+  submit_date: Time.now
 vote17:
   user: user2
   work: book1
+  submit_date: Time.now
 vote18:
   user: user2
   work: book1
+  submit_date: Time.now
 vote19:
   user: user2
   work: book1
+  submit_date: Time.now
 vote20:
   user: user2
   work: book1
+  submit_date: Time.now
 vote21:
   user: user1
   work: movie1
+  submit_date: Time.now
 vote22:
   user: user1
   work: movie1
+  submit_date: Time.now
 vote23:
   user: user1
   work: movie1
+  submit_date: Time.now
 vote24:
   user: user1
   work: movie1
+  submit_date: Time.now
 vote25:
   user: user1
   work: movie1
+  submit_date: Time.now
 vote26:
   user: user2
   work: movie1
+  submit_date: Time.now
 vote27:
   user: user2
   work: movie1
+  submit_date: Time.now
 vote28:
   user: user2
   work: movie1
+  submit_date: Time.now
 vote29:
   user: user2
   work: movie1
+  submit_date: Time.now
 vote30:
   user: user2
   work: movie1
+  submit_date: Time.now
