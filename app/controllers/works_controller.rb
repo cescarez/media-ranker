@@ -1,4 +1,6 @@
 class WorksController < ApplicationController
+  before_action :find_nonnil_work, only: [:show, :edit, :update, :destroy]
+
   def index
     @works = Work.all
   end
@@ -26,29 +28,13 @@ class WorksController < ApplicationController
 
 
   def show
-    @work = Work.find_by(id: params[:id])
-    if @work.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    end
   end
 
   def edit
-    @work = Work.find_by(id: params[:id])
-
-    if @work.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    end
   end
 
   def update
-    @work = Work.find_by(id: params[:id])
-
-    if @work.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    elsif @work.update(work_params)
+    if @work.update(work_params)
       @work.validate_category
       flash[:success] =  "#{@work.category.capitalize} successfully updated. "
       redirect_to work_path(@work.id)
@@ -66,13 +52,6 @@ class WorksController < ApplicationController
   end
 
   def destroy
-    @work = Work.find_by(id: params[:id])
-
-    if @work.nil?
-      render file: "#{Rails.root}/public/404.html", status: :not_found
-      return
-    end
-
     @work.votes.destroy_all
     work_category = @work.category ## copied for success message below
     work_id = @work.id ## copied for success message below
@@ -90,7 +69,6 @@ class WorksController < ApplicationController
 
   def upvote
     @work = Work.find_by(id: params[:id])
-
     if @work.nil?
       flash[:error] = "Error occurred. Media to be upvoted was not found in database."
       redirect_back fallback_location: root_path
@@ -108,7 +86,6 @@ class WorksController < ApplicationController
           flash[:success] =  "Successfully upvoted!"
         else
           flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
-          @work.errors.each { |attribute, message| flash.now[:error] << "#{attribute.capitalize.to_s.gsub('_', ' ')} #{message}. " }
         end
       end
     else
@@ -123,5 +100,13 @@ class WorksController < ApplicationController
 
   def work_params
     return params.require(:work).permit(:title, :category, :creator, :publication_year, :description)
+  end
+
+  def find_nonnil_work
+    @work = Work.find_by(id: params[:id])
+    if @work.nil?
+      render file: "#{Rails.root}/public/404.html", status: :not_found
+      return
+    end
   end
 end

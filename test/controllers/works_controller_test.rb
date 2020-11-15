@@ -114,7 +114,7 @@ describe WorksController do
         patch work_path(-1), params: work_hash
       }.wont_change "Work.count"
 
-      must_respond_with :not_found
+      must_respond_with :redirect
     end
   end
 
@@ -139,7 +139,7 @@ describe WorksController do
         delete work_path(-1)
       }.wont_change "Work.count"
 
-      must_respond_with :not_found
+      must_respond_with :redirect
     end
   end
 
