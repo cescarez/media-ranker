@@ -1,18 +1,384 @@
-movie1:
-  category: movie
-  title: Ratatouille
-  creator: Brad Bird and Jan Pinkava
-  publication_year: 2007-11-12 10:00:12 -0800
-  description:  A rat who can cook makes an unusual alliance with a young kitchen worker at a famous restaurant.
-book1:
-  category: book
-  title: Understanding Comics ":" The Invisible Art
-  creator: Scott McCloud
-  publication_year: 1993-11-12 10:00:12 -0800
-  description: A comic book about comic books.
 album1:
   category: album
   title: Chipmunks in Low Places
   creator: Alvin and the Chipmunks
   publication_year: 2007-11-12 10:00:12 -0800
   description: Alvin is broke but singin his heart out
+book1:
+  category: book
+  title: Understanding Comics ":" The Invisible Art
+  creator: Scott McCloud
+  publication_year: 1993-11-12 10:00:12 -0800
+  description: A comic book about comic books.
+movie1:
+  category: movie
+  title: Ratatouille
+  creator: Brad Bird and Jan Pinkava
+  publication_year: 2017-11-12 10:00:12 -0800
+  description:  A rat who can cook makes an unusual alliance with a young kitchen worker at a famous restaurant.
+
+winning_album1:
+  category: album
+  title: winning album 1
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album2:
+  category: album
+  title: winning album 2
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album3:
+  category: album
+  title: winning album 3
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album4:
+  category: album
+  title: winning album 4
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album5:
+  category: album
+  title: winning album 5
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album6:
+  category: album
+  title: winning album 6
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album7:
+  category: album
+  title: winning album 7
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album8:
+  category: album
+  title: winning album 8 
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album9:
+  category: album
+  title: winning album 9
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+winning_album10:
+  category: album
+  title: winning album 10
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+  
+winning_book1:
+  category: book
+  title: winning book 1
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book2:
+  category: book
+  title: winning book 2
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book3:
+  category: book
+  title: winning book 3
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book4:
+  category: book
+  title: winning book 4
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book5:
+  category: book
+  title: winning book 5
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book6:
+  category: book
+  title: winning book 6
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book7:
+  category: book
+  title: winning book 7
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book8:
+  category: book
+  title: winning book 8
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book9:
+  category: book
+  title: winning book 9
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+winning_book10:
+  category: book
+  title: winning book 10
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+  
+winning_movie1:
+  category: movie
+  title: winning movie 1
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie2:
+  category: movie
+  title: winning movie 2
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie3:
+  category: movie
+  title: winning movie 3
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie4:
+  category: movie
+  title: winning movie 4
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie5:
+  category: movie
+  title: winning movie 5
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie6:
+  category: movie
+  title: winning movie 6
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie7:
+  category: movie
+  title: winning movie 7
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie8:
+  category: movie
+  title: winning movie 8
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie9:
+  category: movie
+  title: winning movie 9
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+winning_movie10:
+  category: movie
+  title: winning movie 10
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+  
+losing_album1:
+  category: album
+  title: losing album 1
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album2:
+  category: album
+  title: losing album 2
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album3:
+  category: album
+  title: losing album 3
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album4:
+  category: album
+  title: losing album 4
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album5:
+  category: album
+  title: losing album 5
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album6:
+  category: album
+  title: losing album 6
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album7:
+  category: album
+  title: losing album 7
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album8:
+  category: album
+  title: losing album 8 
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album9:
+  category: album
+  title: losing album 9
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+losing_album10:
+  category: album
+  title: losing album 10
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This album has is not in the top ten
+  
+losing_book1:
+  category: book
+  title: losing book 1
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book2:
+  category: book
+  title: losing book 2
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book3:
+  category: book
+  title: losing book 3
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book4:
+  category: book
+  title: losing book 4
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book5:
+  category: book
+  title: losing book 5
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book6:
+  category: book
+  title: losing book 6
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book7:
+  category: book
+  title: losing book 7
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book8:
+  category: book
+  title: losing book 8
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book9:
+  category: book
+  title: losing book 9
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+losing_book10:
+  category: book
+  title: losing book 10
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This book has is not in the top ten
+  
+losing_movie1:
+  category: movie
+  title: losing movie 1
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie2:
+  category: movie
+  title: losing movie 2
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie3:
+  category: movie
+  title: losing movie 3
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie4:
+  category: movie
+  title: losing movie 4
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie5:
+  category: movie
+  title: losing movie 5
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie6:
+  category: movie
+  title: losing movie 6
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie7:
+  category: movie
+  title: losing movie 7
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie8:
+  category: movie
+  title: losing movie 8
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie9:
+  category: movie
+  title: losing movie 9
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
+losing_movie10:
+  category: movie
+  title: losing movie 10
+  creator: Loser
+  publication_year: 2007-11-12 10:00:12 -0800
+  description: This movie has is not in the top ten
