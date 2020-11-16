@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :require_login, only: [:current, :logout]
+
   def index
     @users = User.all
   end
@@ -51,31 +53,18 @@ class UsersController < ApplicationController
   end
 
   def logout
-    if session[:user_id]
-      user = User.find_by(id: session[:user_id])
-      unless user.nil?
-        session[:user_id] = nil
-        flash[:success] = "Successfully logged out"
-      else
-        session[:user_id] = nil
-        flash[:error] = "Error. User not found."
-      end
+    if current_user.nil?
+      session[:user_id] = nil
+      flash[:error] = "Error. User not found."
     else
-      flash[:error] = "Error. User must be logged in to logout."
+      session[:user_id] = nil
+      flash[:success] = "Successfully logged out"
     end
     redirect_to root_path
     return
   end
 
   def current
-    @current_user = User.find_by(id: session[:user_id])
-
-    if @current_user.nil?
-      flash[:error] = "You must be logged in to see this page"
-      redirect_to root_path
-    end
-
-    return
   end
 
   #not currently implemented in view, but controller method and route left in

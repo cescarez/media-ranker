@@ -1,5 +1,6 @@
 class WorksController < ApplicationController
-  before_action :find_nonnil_work, only: [:show, :edit, :update, :destroy]
+  before_action :find_nonnil_work, only: [:show, :edit, :update, :destroy, :upvote]
+  before_action :require_login, only: [:upvote]
 
   def index
     @works = Work.all
@@ -68,28 +69,15 @@ class WorksController < ApplicationController
   end
 
   def upvote
-    @work = Work.find_by(id: params[:id])
-    if @work.nil?
-      flash[:error] = "Error occurred. Media to be upvoted was not found in database."
-      redirect_back fallback_location: root_path
-      return
-    end
-
-    user = User.find_by(id: session[:user_id])
-
-    if user
-      previous_vote = @work.votes.find { |vote| vote.user_id == user.id }
-      if previous_vote
-        flash[:error] = "Error. Only one vote is allowed per user, per work."
-      else
-        if @work.add_vote(user: user)
-          flash[:success] =  "Successfully upvoted!"
-        else
-          flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
-        end
-      end
+    previous_vote = @work.votes.find { |vote| vote.user_id == current_user.id }
+    if previous_vote
+      flash[:error] = "Error. Only one vote is allowed per user, per work."
     else
-      flash[:error] = "You must be logged in to vote."
+      if @work.add_vote(user: current_user)
+        flash[:success] =  "Successfully upvoted!"
+      else
+        flash[:error] =  "Error occurred. #{@work.title} upvote did not save. "
+      end
     end
 
     redirect_back fallback_location: root_path
@@ -105,6 +93,7 @@ class WorksController < ApplicationController
   def find_nonnil_work
     @work = Work.find_by(id: params[:id])
     if @work.nil?
+      flash[:error] = "Work not found."
       render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     end
