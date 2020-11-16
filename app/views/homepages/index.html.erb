@@ -1,15 +1,15 @@
 <main class="homepage">
   <section class="spotlight">
+    <% top_work = Work.spotlight %>
     <h2 class="spotlight__header">
       <span class="spotlight__header--prefix">
         Media Spotlight:
       </span>
-      <% top_work = Work.spotlight %>
       <% if top_work %>
         <%= link_to top_work.title, work_path(top_work.id), class: "spotlight__link-to" %> by <%= top_work.creator %>
       <% end %>
     </h2>
-    <p><%= top_work.votes.length %> votes - <%= top_work.description %></p>
+      <p><%= top_work ? top_work.votes.length : 0 %> votes - <%= top_work ? top_work.description : "N/A" %></p>
   </section>
   <hr class="root__hr">
   <section class="top-ten__container">
