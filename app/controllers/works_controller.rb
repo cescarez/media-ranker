@@ -93,7 +93,7 @@ class WorksController < ApplicationController
   def find_nonnil_work
     @work = Work.find_by(id: params[:id])
     if @work.nil?
-      flash[:error] = "Work not found."
+      flash.now[:error] = "Work not found."
       render file: "#{Rails.root}/public/404.html", status: :not_found
       return
     end
