@@ -136,7 +136,7 @@ describe UsersController do
       expect(flash[:error]).wont_be_nil
 
       must_respond_with :redirect
-      must_redirect_to root_path
+      must_redirect_to login_path
     end
   end
 
