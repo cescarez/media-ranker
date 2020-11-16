@@ -58,7 +58,7 @@ class WorksController < ApplicationController
     work_id = @work.id ## copied for success message below
 
     if @work.destroy
-      flash[:success] =  " #{work_category.capitalize} (ID #{work_id} successfully deleted."
+      flash[:success] =  " #{work_category.capitalize} (ID #{work_id}) successfully deleted."
       redirect_to works_path
       return
     else
